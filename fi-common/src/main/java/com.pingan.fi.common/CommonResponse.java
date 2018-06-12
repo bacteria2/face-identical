@@ -1,11 +1,16 @@
 package com.pingan.fi.common;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author IonCannon
  * @date 2018/4/29
  * @decription : content
  */
-public class CommonResponse {
+public class CommonResponse implements Cloneable {
+    private Logger log = LoggerFactory.getLogger(CommonResponse.class);
+
     private int code;
 
     private String message;
@@ -38,6 +43,7 @@ public class CommonResponse {
         this.message = message;
         return this;
     }
+
     public CommonResponse setMessage(Object message) {
         this.message = message.toString();
         return this;
@@ -50,5 +56,19 @@ public class CommonResponse {
     public CommonResponse setData(Object data) {
         this.data = data;
         return this;
+    }
+
+    @Override
+    protected Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            log.info("clone error return new Object");
+            CommonResponse commonResponse=  new CommonResponse();
+            commonResponse.setData(this.getData());
+            commonResponse.setMessage(this.getMessage());
+            commonResponse.setCode(this.getCode());
+            return commonResponse;
+        }
     }
 }

@@ -56,12 +56,11 @@ public class FiServiceExecutor extends AbstractExecutor {
         parameters.put("picture2", file2);
         String jsonString = JSON.toJSONString(parameters);
 
-        String url=urlFormat(ServiceUrl.Search1V1Vec);
+        String url=urlFormat(ServiceUrl.Search1V1);
         //发送请求
         Content content = Request.Post(url).bodyString(jsonString, ContentType.APPLICATION_JSON)
                 .execute()
                 .returnContent();
-
         log.info("response from 1v1 service");
         return content;
     }
@@ -74,6 +73,7 @@ public class FiServiceExecutor extends AbstractExecutor {
 
 
     /**
+     * <p>图片特征值生成</p>
      * @param imageList 图片的base64字符串
      * @return 填充feature信息的列表
      */
@@ -81,11 +81,16 @@ public class FiServiceExecutor extends AbstractExecutor {
         log.info("call feature generate  service");
 
         //请求参数包装
-        List<Map> requestParam = imageList.stream().map(this::getFeatureGenParameterMap).collect(Collectors.toList());
+        List<Map> requestParam = imageList
+                .stream()
+                .map(this::getFeatureGenParameterMap)
+                .collect(Collectors.toList());
+
         Map data = ImmutableMap.of("data", requestParam);
 
         //发送请求并且将返回结果转换为JSONObject
-        Content content = Request.Post(urlFormat(ServiceUrl.Search1V1Vec)).bodyString(JSON.toJSONString(data), ContentType.APPLICATION_JSON)
+        Content content = Request.Post(urlFormat(ServiceUrl.Search1V1Vec))
+                .bodyString(JSON.toJSONString(data), ContentType.APPLICATION_JSON)
                 .execute()
                 .returnContent();
         JSONObject jsonObject = contentTransformToJson(content);

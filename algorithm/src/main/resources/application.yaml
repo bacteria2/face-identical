@@ -20,7 +20,9 @@ server:
     port: 8080
     version: 1.0.0
     vendorName: Pingan
-
+logging:
+  file: algorithm-service-out.log
+  path: ./logs/
 ---
 #prod config
 spring:

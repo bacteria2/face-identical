@@ -7,9 +7,13 @@ package com.pingan.fi.algorithm.engine;
  */
 public enum ServiceUrl {
 
-    Search1V1("/searchFace1V1"),   //图片搜索
+    Search1V1("/searchFace1V1"),   //1v1图片搜索
 
-    Search1V1Vec("/searchFeatureVec1V1"),   //特征值搜索
+    Search1V1Vec("/searchFeatureVec1V1"),   //1v1特征值搜索
+
+    Search1VN("/searchFace1VN"),  //1vn图片搜索
+
+    Search1VNVec("/searchFeatureVec1VN"),  //1vn 特征值搜索
 
     FeatureGeneration("/buildFeatureVecByB64"),    //特征值生成
 
