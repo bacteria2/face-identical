@@ -1,39 +1,38 @@
-eureka:
-  client:
-    serviceUrl:
-      defaultZone:  http://peer1:8761/eureka/,http://peer2:8762/eureka/,http://peer3:8763/eureka/
 server:
   port: 8764
 spring:
   application:
-    name: kettle-service
+    name: algorithm-service
   profiles:
     active: dev
-
 ---
+#dev config
 spring:
   profiles: dev
-kettle:
-  cluster:
-    username: cluster
-    password: cluster
-    host: 192.168.40.235
+eureka:
+  client:
+    serviceUrl:
+      defaultZone:  http://localhost:8761/eureka/
+server:
+  fi:
+    uriPrefix: /bioauth/faceService
+    host: 10.180.121.141
     port: 8080
-    name: cluster
-    basePort: 40000
-    socketsBufferSize: 2000
-    socketsFlushInterval: 5000
-    sockets_compressed: true
-    slaveServersName: clusterMaster
-  repository-path: Z://
+    version: 1.0.0
+    vendorName: Pingan
 
 ---
+#prod config
 spring:
   profiles: prod
-kettle:
-  cluster:
-    username: cluster
-    password: cluster
-    host: 192.168.40.235
+serverInfo:
+  fi:
+    uriPrefix: /bioauth/faceService
+    host: 10.180.121.141
     port: 8080
-  repository-path: Z://
+    version: 1.0.0
+    vendorName: Pingan
+eureka:
+  client:
+    serviceUrl:
+      defaultZone:  http://peer.registry.com:8761/eureka/,http://peer.registry.com:8762/eureka/,http://peer.registry.com:8763/eureka/
