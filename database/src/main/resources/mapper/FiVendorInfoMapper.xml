@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="packageMapper.FiVendorInfoMapper">
+    <insert id="insertFiVendorInfo"  useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `fi_vendor_info`
+        (
+        <trim suffixOverrides=",">
+            <if test="id!=null">
+                `id`,
+            </if>
+            <if test="vendorName!=null">
+                `vendor_name`,
+            </if>
+            <if test="vendorNameEn!=null">
+                `vendor_name_en`,
+            </if>
+            <if test="version!=null">
+                `version`,
+            </if>
+            <if test="creator!=null">
+                `creator`,
+            </if>
+            <if test="createTime!=null">
+                `create_time`,
+            </if>
+            <if test="updator!=null">
+                `updator`,
+            </if>
+            <if test="updateTime!=null">
+                `update_time`,
+            </if>
+        </trim>
+        )
+        VALUES
+        (
+        <trim suffixOverrides=",">
+            <if test="id!=null">
+                #{id},
+            </if>
+            <if test="vendorName!=null">
+                #{vendorName},
+            </if>
+            <if test="vendorNameEn!=null">
+                #{vendorNameEn},
+            </if>
+            <if test="version!=null">
+                #{version},
+            </if>
+            <if test="creator!=null">
+                #{creator},
+            </if>
+            <if test="createTime!=null">
+                #{createTime},
+            </if>
+            <if test="updator!=null">
+                #{updator},
+            </if>
+            <if test="updateTime!=null">
+                #{updateTime},
+            </if>
+        </trim>
+        )
+    </insert>
+
+
+
+
+    <update id="updateFiVendorInfo">
+        UPDATE `fi_vendor_info`
+        SET
+        <trim suffixOverrides=",">
+            <if test="vendorName != null and vendorName!=''">
+                `vendor_name` = #{vendorName},
+            </if>
+            <if test="vendorNameEn != null and vendorNameEn!=''">
+                `vendor_name_en` = #{vendorNameEn},
+            </if>
+            <if test="version != null and version!=''">
+                `version` = #{version},
+            </if>
+            <if test="creator != null and creator!=''">
+                `creator` = #{creator},
+            </if>
+            <if test="createTime != null">
+                `create_time` = #{createTime},
+            </if>
+            <if test="updator != null and updator!=''">
+                `updator` = #{updator},
+            </if>
+            <if test="updateTime != null">
+                `update_time` = #{updateTime},
+            </if>
+        </trim>
+        WHERE
+        <trim suffixOverrides="and">
+            `id` = #{id} and
+        </trim>
+    </update>
+
+
+
+    <resultMap type="packageModel.FiVendorInfo" id="FiVendorInfoMap">
+        <result property="id" column="id"/>
+        <result property="vendorName" column="vendor_name"/>
+        <result property="vendorNameEn" column="vendor_name_en"/>
+        <result property="version" column="version"/>
+        <result property="creator" column="creator"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updator" column="updator"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+
+    <select id="queryFiVendorInfo" resultMap="FiVendorInfoMap">
+        select
+        <include refid="baseResult"></include>
+        from  `fi_vendor_info`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="id != null">
+                `id` = #{id} and
+            </if>
+            <if test="vendorName != null and vendorName!=''">
+                `vendor_name` = #{vendorName} and
+            </if>
+            <if test="vendorNameEn != null and vendorNameEn!=''">
+                `vendor_name_en` = #{vendorNameEn} and
+            </if>
+            <if test="version != null and version!=''">
+                `version` = #{version} and
+            </if>
+            <if test="creator != null and creator!=''">
+                `creator` = #{creator} and
+            </if>
+            <if test="createTime != null">
+                `create_time` = #{createTime} and
+            </if>
+            <if test="updator != null and updator!=''">
+                `updator` = #{updator} and
+            </if>
+            <if test="updateTime != null">
+                `update_time` = #{updateTime} and
+            </if>
+            <if test = "(_parameter instanceof packageModel.FiVendorInfo$QueryBuilder) == true">
+                <if test="idList != null">
+                    `id` in
+                    <foreach collection="idList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="idSt !=null">
+                    `id` >= #{idSt} and
+                </if>
+                <if test="idEd!=null">
+                    `id` &lt;= #{idEd} and
+                </if>
+                <if test="vendorNameList != null">
+                    `vendor_name` in
+                    <foreach collection="vendorNameList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyVendorName!=null and fuzzyVendorName.size()>0">
+                    (
+                    <foreach collection="fuzzyVendorName"  separator="or" item="item">
+                        `Vendor_name` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyVendorName!=null and rightFuzzyVendorName.size()>0">
+                    (
+                    <foreach collection="rightFuzzyVendorName"  separator="or" item="item">
+                        `Vendor_name` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="vendorNameEnList != null">
+                    `vendor_name_en` in
+                    <foreach collection="vendorNameEnList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyVendorNameEn!=null and fuzzyVendorNameEn.size()>0">
+                    (
+                    <foreach collection="fuzzyVendorNameEn"  separator="or" item="item">
+                        `Vendor_name_en` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyVendorNameEn!=null and rightFuzzyVendorNameEn.size()>0">
+                    (
+                    <foreach collection="rightFuzzyVendorNameEn"  separator="or" item="item">
+                        `Vendor_name_en` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="versionList != null">
+                    `version` in
+                    <foreach collection="versionList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyVersion!=null and fuzzyVersion.size()>0">
+                    (
+                    <foreach collection="fuzzyVersion"  separator="or" item="item">
+                        `Version` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyVersion!=null and rightFuzzyVersion.size()>0">
+                    (
+                    <foreach collection="rightFuzzyVersion"  separator="or" item="item">
+                        `Version` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="creatorList != null">
+                    `creator` in
+                    <foreach collection="creatorList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyCreator!=null and fuzzyCreator.size()>0">
+                    (
+                    <foreach collection="fuzzyCreator"  separator="or" item="item">
+                        `Creator` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyCreator!=null and rightFuzzyCreator.size()>0">
+                    (
+                    <foreach collection="rightFuzzyCreator"  separator="or" item="item">
+                        `Creator` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="createTimeList != null">
+                    `create_time` in
+                    <foreach collection="createTimeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="createTimeSt !=null">
+                    `create_time` >= #{createTimeSt} and
+                </if>
+                <if test="createTimeEd!=null">
+                    `create_time` &lt;= #{createTimeEd} and
+                </if>
+                <if test="updatorList != null">
+                    `updator` in
+                    <foreach collection="updatorList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyUpdator!=null and fuzzyUpdator.size()>0">
+                    (
+                    <foreach collection="fuzzyUpdator"  separator="or" item="item">
+                        `Updator` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyUpdator!=null and rightFuzzyUpdator.size()>0">
+                    (
+                    <foreach collection="rightFuzzyUpdator"  separator="or" item="item">
+                        `Updator` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="updateTimeList != null">
+                    `update_time` in
+                    <foreach collection="updateTimeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="updateTimeSt !=null">
+                    `update_time` >= #{updateTimeSt} and
+                </if>
+                <if test="updateTimeEd!=null">
+                    `update_time` &lt;= #{updateTimeEd} and
+                </if>
+            </if>
+        </trim>
+    </select>
+
+    <select id="queryFiVendorInfoLimit1" resultMap="FiVendorInfoMap">
+        select
+        <include refid="baseResult"></include>
+        from  `fi_vendor_info`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="id != null">
+                `id` = #{id} and
+            </if>
+            <if test="vendorName != null and vendorName!=''">
+                `vendor_name` = #{vendorName} and
+            </if>
+            <if test="vendorNameEn != null and vendorNameEn!=''">
+                `vendor_name_en` = #{vendorNameEn} and
+            </if>
+            <if test="version != null and version!=''">
+                `version` = #{version} and
+            </if>
+            <if test="creator != null and creator!=''">
+                `creator` = #{creator} and
+            </if>
+            <if test="createTime != null">
+                `create_time` = #{createTime} and
+            </if>
+            <if test="updator != null and updator!=''">
+                `updator` = #{updator} and
+            </if>
+            <if test="updateTime != null">
+                `update_time` = #{updateTime} and
+            </if>
+            <if test = "(_parameter instanceof packageModel.FiVendorInfo$QueryBuilder) == true">
+                <if test="idList != null">
+                    `id` in
+                    <foreach collection="idList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="idSt !=null">
+                    `id` >= #{idSt} and
+                </if>
+                <if test="idEd!=null">
+                    `id` &lt;= #{idEd} and
+                </if>
+                <if test="vendorNameList != null">
+                    `vendor_name` in
+                    <foreach collection="vendorNameList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyVendorName!=null and fuzzyVendorName.size()>0">
+                    (
+                    <foreach collection="fuzzyVendorName"  separator="or" item="item">
+                        `Vendor_name` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyVendorName!=null and rightFuzzyVendorName.size()>0">
+                    (
+                    <foreach collection="rightFuzzyVendorName"  separator="or" item="item">
+                        `Vendor_name` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="vendorNameEnList != null">
+                    `vendor_name_en` in
+                    <foreach collection="vendorNameEnList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyVendorNameEn!=null and fuzzyVendorNameEn.size()>0">
+                    (
+                    <foreach collection="fuzzyVendorNameEn"  separator="or" item="item">
+                        `Vendor_name_en` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyVendorNameEn!=null and rightFuzzyVendorNameEn.size()>0">
+                    (
+                    <foreach collection="rightFuzzyVendorNameEn"  separator="or" item="item">
+                        `Vendor_name_en` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="versionList != null">
+                    `version` in
+                    <foreach collection="versionList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyVersion!=null and fuzzyVersion.size()>0">
+                    (
+                    <foreach collection="fuzzyVersion"  separator="or" item="item">
+                        `Version` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyVersion!=null and rightFuzzyVersion.size()>0">
+                    (
+                    <foreach collection="rightFuzzyVersion"  separator="or" item="item">
+                        `Version` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="creatorList != null">
+                    `creator` in
+                    <foreach collection="creatorList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyCreator!=null and fuzzyCreator.size()>0">
+                    (
+                    <foreach collection="fuzzyCreator"  separator="or" item="item">
+                        `Creator` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyCreator!=null and rightFuzzyCreator.size()>0">
+                    (
+                    <foreach collection="rightFuzzyCreator"  separator="or" item="item">
+                        `Creator` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="createTimeList != null">
+                    `create_time` in
+                    <foreach collection="createTimeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="createTimeSt !=null">
+                    `create_time` >= #{createTimeSt} and
+                </if>
+                <if test="createTimeEd!=null">
+                    `create_time` &lt;= #{createTimeEd} and
+                </if>
+                <if test="updatorList != null">
+                    `updator` in
+                    <foreach collection="updatorList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyUpdator!=null and fuzzyUpdator.size()>0">
+                    (
+                    <foreach collection="fuzzyUpdator"  separator="or" item="item">
+                        `Updator` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyUpdator!=null and rightFuzzyUpdator.size()>0">
+                    (
+                    <foreach collection="rightFuzzyUpdator"  separator="or" item="item">
+                        `Updator` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="updateTimeList != null">
+                    `update_time` in
+                    <foreach collection="updateTimeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="updateTimeSt !=null">
+                    `update_time` >= #{updateTimeSt} and
+                </if>
+                <if test="updateTimeEd!=null">
+                    `update_time` &lt;= #{updateTimeEd} and
+                </if>
+            </if>
+        </trim>
+        limit 1
+    </select>
+
+    <sql id="allResult">
+        <trim suffixOverrides=",">
+            `id`,
+            `vendor_name`,
+            `vendor_name_en`,
+            `version`,
+            `creator`,
+            `create_time`,
+            `updator`,
+            `update_time`,
+        </trim>
+    </sql>
+
+
+
+    <sql id="baseResult">
+        <trim suffixOverrides=",">
+            <if test = "(_parameter instanceof packageModel.FiVendorInfo$QueryBuilder) == true">
+
+                <if test="fetchFields==null">
+                    <include refid="allResult"></include>
+                </if>
+                <if test="fetchFields!=null">
+                    <if test="fetchFields.AllFields !=null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields ==null and fetchFields.fetchFields==null and fetchFields.excludeFields==null and fetchFields.otherFields==null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.fetchFields!=null">
+                        <if test="fetchFields.fetchFields.id==true">
+                            `id`,
+                        </if>
+                        <if test="fetchFields.fetchFields.vendorName==true">
+                            `vendor_name`,
+                        </if>
+                        <if test="fetchFields.fetchFields.vendorNameEn==true">
+                            `vendor_name_en`,
+                        </if>
+                        <if test="fetchFields.fetchFields.version==true">
+                            `version`,
+                        </if>
+                        <if test="fetchFields.fetchFields.creator==true">
+                            `creator`,
+                        </if>
+                        <if test="fetchFields.fetchFields.createTime==true">
+                            `create_time`,
+                        </if>
+                        <if test="fetchFields.fetchFields.updator==true">
+                            `updator`,
+                        </if>
+                        <if test="fetchFields.fetchFields.updateTime==true">
+                            `update_time`,
+                        </if>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
+                        <if test="fetchFields.excludeFields.id==null">
+                            `id`,
+                        </if>
+                        <if test="fetchFields.excludeFields.vendorName==null">
+                            `vendor_name`,
+                        </if>
+                        <if test="fetchFields.excludeFields.vendorNameEn==null">
+                            `vendor_name_en`,
+                        </if>
+                        <if test="fetchFields.excludeFields.version==null">
+                            `version`,
+                        </if>
+                        <if test="fetchFields.excludeFields.creator==null">
+                            `creator`,
+                        </if>
+                        <if test="fetchFields.excludeFields.createTime==null">
+                            `create_time`,
+                        </if>
+                        <if test="fetchFields.excludeFields.updator==null">
+                            `updator`,
+                        </if>
+                        <if test="fetchFields.excludeFields.updateTime==null">
+                            `update_time`,
+                        </if>
+                    </if>
+                    <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">
+                        <foreach collection="fetchFields.otherFields" index="index" item="item" separator=",">
+                            `#{item}`
+                        </foreach>
+                    </if>
+                </if>
+            </if>
+            <if test="(_parameter instanceof packageModel.FiVendorInfo$QueryBuilder) == false" >
+                <include refid="allResult"></include>
+            </if>
+
+        </trim>
+    </sql>
+
+
+</mapper>

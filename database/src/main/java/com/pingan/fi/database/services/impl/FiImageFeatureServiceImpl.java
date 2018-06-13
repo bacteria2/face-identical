@@ -1,25 +1,22 @@
-package com.pingan.fi.database.services;
+package com.pingan.fi.database.services.impl;
 
 import com.pingan.fi.common.CommonResponse;
 import com.pingan.fi.common.ResponseList;
 import com.pingan.fi.database.dao.FiImageFeatureMapper;
 import com.pingan.fi.database.model.FiImageFeature;
+import com.pingan.fi.database.services.FiImageFeatureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * @author IonCannon
- * @date 2018/6/12
- * @decription : content
- */
 @Service
-public class DemoService {
-    @Autowired
-    FiImageFeatureMapper fiImageFeatureMapper;
+public class FiImageFeatureServiceImpl implements FiImageFeatureService {
 
-    public CommonResponse doDemoSelect(String featureId){
+    @Autowired
+    private FiImageFeatureMapper fiImageFeatureMapper;
+
+    public CommonResponse findById(String featureId){
         FiImageFeature fiImageFeature=new FiImageFeature();
         fiImageFeature.setId(Long.parseLong(featureId));
 
