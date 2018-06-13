@@ -8,19 +8,17 @@ import org.springframework.stereotype.Component;
  * @date 2018/6/11
  * @decription : 人脸识别服务器信息
  */
-//@Component
-//@ConfigurationProperties(prefix = "server.fi")
+
 public class FiServerInfo {
 
     private String uriPrefix;
 
-    private String host;
+    private String hostname;
 
-    private String port;
 
-    private String version;
+    private String protocol;
 
-    private String vendorName;
+    private int timeout=2000;
 
 
     public String getUriPrefix() {
@@ -31,35 +29,27 @@ public class FiServerInfo {
         this.uriPrefix = uriPrefix;
     }
 
-    public String getHost() {
-        return host;
+    public String getHostname() {
+        return hostname;
     }
 
-    public void setHost(String host) {
-        this.host = host;
+    public void setHostname(String hostname) {
+        this.hostname = hostname;
     }
 
-    public String getPort() {
-        return port;
+    public String getProtocol() {
+        return protocol;
     }
 
-    public void setPort(String port) {
-        this.port = port;
+    public void setProtocol(String protocol) {
+        this.protocol = protocol;
     }
 
-    public String getVersion() {
-        return version;
+    public int getTimeout() {
+        return timeout;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public String getVendorName() {
-        return vendorName;
-    }
-
-    public void setVendorName(String vendorName) {
-        this.vendorName = vendorName;
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
     }
 }

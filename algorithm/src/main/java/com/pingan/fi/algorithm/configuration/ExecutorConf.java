@@ -1,7 +1,9 @@
 package com.pingan.fi.algorithm.configuration;
 
 import com.pingan.fi.algorithm.engine.impl.FiServiceExecutor;
+import com.pingan.fi.algorithm.engine.impl.ImageExecutor;
 import com.pingan.fi.algorithm.model.env.FiServerInfo;
+import com.pingan.fi.algorithm.model.env.ImageServerInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +22,11 @@ public class ExecutorConf {
         return new FiServiceExecutor(serverInfo);
     }
 
+    @Bean
+    @Autowired
+    public ImageExecutor imageExecutor(ImageServerInfo imageServerInfo){
+        return new ImageExecutor(imageServerInfo);
+    }
 
 
 }

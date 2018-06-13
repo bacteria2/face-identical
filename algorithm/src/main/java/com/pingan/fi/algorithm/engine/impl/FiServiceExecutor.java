@@ -1,23 +1,30 @@
 package com.pingan.fi.algorithm.engine.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
+import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.pingan.fi.algorithm.engine.AbstractExecutor;
+import com.pingan.fi.algorithm.engine.AlgorithmCastException;
 import com.pingan.fi.algorithm.engine.ServiceUrl;
-import com.pingan.fi.algorithm.model.fi.ImageFeatureValue;
+import com.pingan.fi.algorithm.engine.TempImageFeature;
+import com.pingan.fi.algorithm.model.fi.ImageFeatureModel;
 import com.pingan.fi.algorithm.model.env.FiServerInfo;
 import com.pingan.fi.common.CommonResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.fluent.Content;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.ContentType;
+import org.springframework.util.StringUtils;
+
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -39,6 +46,7 @@ public class FiServiceExecutor extends AbstractExecutor {
 
 
     //组装参数
+
     /**
      * <p>
      * 1v1接口执行，传入2个文件的base64字符串信息，获得匹配结果
@@ -46,9 +54,9 @@ public class FiServiceExecutor extends AbstractExecutor {
      *
      * @param file1 1v1请求文件1
      * @param file2 1v1 请求文件2
-     * @return 请求返回结果
+     * @return 请求返回结果 相似度
      */
-    public Content doFiSearch1v1(String file1, String file2) throws IOException {
+    public float doFiSearch1v1(String file1, String file2) throws Exception {
         log.info("call search for 1v1 service");
         //组装参数
         Map<String, String> parameters = new HashMap<>();
@@ -56,32 +64,70 @@ public class FiServiceExecutor extends AbstractExecutor {
         parameters.put("picture2", file2);
         String jsonString = JSON.toJSONString(parameters);
 
-        String url=urlFormat(ServiceUrl.Search1V1);
+        String url = urlFormat(ServiceUrl.Search1V1);
         //发送请求
         Content content = Request.Post(url).bodyString(jsonString, ContentType.APPLICATION_JSON)
+                .socketTimeout(serverInfo.getTimeout())
+                .connectTimeout(serverInfo.getTimeout())
                 .execute()
                 .returnContent();
+        JSONObject resp = ifSuccessGet(content, JSONObject.class);
+
         log.info("response from 1v1 service");
-        return content;
+
+        return resp.getFloat("similarity");
     }
 
-    public CommonResponse doFiSearch1vN() {
+    /**
+     * <p>
+     * 1vN接口执行，传入1个图片的base64编码，获得匹配结果
+     * </p>
+     */
+    public CommonResponse doFiSearch1vN(String imageBase64) {
         log.info("");
+        //TODO
         return null;
     }
 
 
+    /**
+     * <p>人脸小图3矩阵识别</p>
+     *
+     * @param imageBase64 图片的base64编码
+     * @return 长度为4的字符串数组
+     */
+    public String[] doFaceDetect(String imageBase64) {
+        log.info("do call face detect");
+        try {
+            Content content = Request.Post(urlFormat(ServiceUrl.FaceDetect))
+                    .bodyString(String.format("{\"imagebase64\":%s,\"checkQuality\":0}", imageBase64), ContentType.APPLICATION_JSON)
+                    .socketTimeout(serverInfo.getTimeout())
+                    .connectTimeout(serverInfo.getTimeout())
+                    .execute()
+                    .returnContent();
+            String rect = ifSuccessGet(content, String.class);
+
+            log.info("finish call face detect,rect is {}", rect);
+
+            if (!StringUtils.isEmpty(rect))
+                return rect.split(",");
+        } catch (AlgorithmCastException | IOException e) {
+            log.error("detect error", e);
+        }
+        return new String[]{"", "", "", ""};
+    }
 
     /**
      * <p>图片特征值生成</p>
+     *
      * @param imageList 图片的base64字符串
      * @return 填充feature信息的列表
      */
-    public List<ImageFeatureValue> doFeatureGen(List<ImageFeatureValue> imageList) throws IOException {
+    public List<ImageFeatureModel> doFeatureGen(List<ImageFeatureModel> imageList) throws Exception {
         log.info("call feature generate  service");
 
         //请求参数包装
-        List<Map> requestParam = imageList
+        List<TempImageFeature> requestParam = imageList
                 .stream()
                 .map(this::getFeatureGenParameterMap)
                 .collect(Collectors.toList());
@@ -89,42 +135,54 @@ public class FiServiceExecutor extends AbstractExecutor {
         Map data = ImmutableMap.of("data", requestParam);
 
         //发送请求并且将返回结果转换为JSONObject
-        Content content = Request.Post(urlFormat(ServiceUrl.Search1V1Vec))
+        Content content = Request.Post(urlFormat(ServiceUrl.FeatureGeneration))
                 .bodyString(JSON.toJSONString(data), ContentType.APPLICATION_JSON)
+                .socketTimeout(serverInfo.getTimeout())
+                .connectTimeout(serverInfo.getTimeout())
                 .execute()
                 .returnContent();
-        JSONObject jsonObject = contentTransformToJson(content);
 
-        Preconditions.checkNotNull(jsonObject, "获取特征值返回结果为空");
-        JSONArray featureList = jsonObject.getJSONArray("result");
-
-        if (null != featureList)
-            return featureList.toJavaList(ImageFeatureValue.class);
-        else {
-            log.info("result is null return empty list");
-            return new ArrayList<>();
-        }
-
+        log.info("finish  feature generate");
+        return ifSuccessGetList(content, TempImageFeature.class).stream()
+                .map(temp -> new ImageFeatureModel(temp.getFeature(), temp.getGuid(), temp.getLibid())).collect(Collectors.toList());
     }
 
-    private Map<String, String> getFeatureGenParameterMap(ImageFeatureValue image) {
-        return getFeatureGenParameterMap(image.getImageBase64(), image.getFaceId(), "-1");
+
+    private TempImageFeature getFeatureGenParameterMap(ImageFeatureModel image) {
+        return new TempImageFeature(image.getImageId(), image.getLibId(), image.getFeature());
     }
 
-    private Map<String, String> getFeatureGenParameterMap(String imageBase64, String guid, String libId) {
-        return ImmutableMap.of("imageBase64", imageBase64, "guid", guid, "libid", libId);
+
+    //检查返回是否成功,成功返回则对象
+    private <T> T ifSuccessGet(Content content, Class<T> tClass) throws AlgorithmCastException {
+        return isRtnSuccess(content).getObject("result", tClass);
+    }
+
+    private <T> List<T> ifSuccessGetList(Content content, Class<T> tClass) throws AlgorithmCastException {
+        return isRtnSuccess(content).getObject("result", new TypeReference<List<T>>() {
+        });
+    }
+
+    private JSONObject isRtnSuccess(Content content) throws AlgorithmCastException {
+        JSONObject resp = contentTransformToJson(content);
+        Preconditions.checkNotNull(resp, "请求返回结果对象位空");
+
+        if (!"000".equals(resp.getString("rtn")) || resp.get("rtn") == null)
+            throw new AlgorithmCastException(String.format("返回结果有误，返回结果: %s .", resp.toJSONString()));
+
+        return resp;
     }
 
     private String urlFormat(ServiceUrl url) {
-        Preconditions.checkNotNull(url,"传入url为空");
-        Preconditions.checkNotNull(serverInfo,"识别服务信息为空");
+        Preconditions.checkNotNull(url, "传入url为空");
+        Preconditions.checkNotNull(serverInfo, "识别服务信息为空");
 
         String prefix = serverInfo.getUriPrefix();
 
         if (prefix.endsWith("/"))
             prefix = prefix.substring(0, prefix.length() - 1);
 
-        return  String.format("http://%s:%s%s",serverInfo.getHost(),serverInfo.getPort(),  prefix.concat(url.toString()));
+        return String.format("%s://%s%s", serverInfo.getProtocol(), serverInfo.getHostname(), prefix.concat(url.toString()));
     }
 
 }

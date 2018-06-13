@@ -18,8 +18,12 @@ server:
     uriPrefix: /bioauth/faceService
     host: 10.180.121.141
     port: 8080
-    version: 1.0.0
-    vendorName: Pingan
+    protocol: http
+  image:
+    username: test
+    password:  test
+    hostname:  localhost
+
 logging:
   file: algorithm-service-out.log
   path: ./logs/

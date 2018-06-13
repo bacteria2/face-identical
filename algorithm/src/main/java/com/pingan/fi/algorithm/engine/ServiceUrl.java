@@ -15,12 +15,17 @@ public enum ServiceUrl {
 
     Search1VNVec("/searchFeatureVec1VN"),  //1vn 特征值搜索
 
+    FaceDetect("/faceDetect"), //人脸小图矩阵识别
+
     FeatureGeneration("/buildFeatureVecByB64"),    //特征值生成
 
     FeatureGenerationByUrl("/buildFeatureVecByUrl"),  //url特征值生成
 
-    ImageQuality("imageQuality");  //图片质量评估
+    ImageQuality("imageQuality"),  //图片质量评估
 
+    FetchImageRepoNode("/file_selected/userInfo/userLogin"), //图片库最优节点选取
+
+    ImageDownload("/file_service/fileService/downloadFile") ; //图片库下载
 
     private String url;
 

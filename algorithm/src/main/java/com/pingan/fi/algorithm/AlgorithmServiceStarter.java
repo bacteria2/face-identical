@@ -4,6 +4,7 @@ package com.pingan.fi.algorithm;
 import com.pingan.fi.algorithm.configuration.ExecutorConf;
 import com.pingan.fi.algorithm.configuration.SwaggerConf;
 import com.pingan.fi.algorithm.model.env.FiServerInfo;
+import com.pingan.fi.algorithm.model.env.ImageServerInfo;
 import org.springframework.boot.Banner;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,6 +27,13 @@ public class AlgorithmServiceStarter {
     public FiServerInfo serverInfo(){
         return new FiServerInfo();
     }
+
+    @Bean
+    @ConfigurationProperties(prefix="server.image")
+    public ImageServerInfo imageServerInfo(){
+        return new ImageServerInfo();
+    }
+
 
     public static void main(String[] args) {
 

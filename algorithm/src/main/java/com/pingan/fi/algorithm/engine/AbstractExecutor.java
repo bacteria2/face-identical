@@ -23,7 +23,8 @@ public class AbstractExecutor {
     }
 
     protected JSONObject contentTransformToJson(Content content){
-        return JSONObject.parseObject(content.asString(Charset.forName("UTF-8"))) ;
-
+        String contentString = content.asString(Charset.forName("UTF-8"));
+        Preconditions.checkNotNull(contentString," 请求返回json结果字符串为空，请检查调用参数");
+        return JSONObject.parseObject(contentString);
     }
 }
