@@ -1,8 +1,10 @@
 package com.pingan.fi.algorithm.services;
 
-import com.google.common.collect.ImmutableMap;
+import com.google.common.base.Preconditions;
+import com.pingan.fi.algorithm.engine.AlgorithmCastException;
 import com.pingan.fi.algorithm.engine.impl.FiServiceExecutor;
 import com.pingan.fi.algorithm.engine.impl.ImageExecutor;
+import com.pingan.fi.algorithm.model.fi.FeatureBody;
 import com.pingan.fi.algorithm.model.fi.ImageFeatureModel;
 import com.pingan.fi.common.CommonResponse;
 import com.pingan.fi.common.ResponseList;
@@ -11,11 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.io.IOException;
+import java.util.*;
 
 
 /**
@@ -59,26 +58,39 @@ public class FiService {
      *
      * @param imageList 图片ID集合
      */
-    public CommonResponse featureGenerate(List<ImageFeatureModel> imageList) throws Exception {
-
-        //请求图文库获得图片
-        imageList.forEach(image -> image.setImageBase64(imageExecutor.doImageGet(image.getImageId())));
+    public CommonResponse featureGenerate(List<ImageFeatureModel> imageList) throws IOException, AlgorithmCastException {
 
         //请求算法生成特征值
         log.info("request feature generate");
-        List<ImageFeatureModel> imageFeatureModelList = fiServiceExecutor.doFeatureGen(imageList);
 
-        //请求XY值
-        imageFeatureModelList.forEach(imageFeatureModel -> {
-          String[] rect=  fiServiceExecutor.doFaceDetect(imageFeatureModel.getImageBase64());
-          imageFeatureModel.setLeftTopX(rect[0]);
-          imageFeatureModel.setLeftTopY(rect[1]);
-          imageFeatureModel.setRightBtmX(rect[2]);
-          imageFeatureModel.setRightBtmY(rect[3]);
-        });
+        //特征值批量参数列表请求初始化
+        List<FeatureBody> requestBodyList = new LinkedList<>();
+
+
+        //请求图文库获得图片
+        for (ImageFeatureModel image : imageList) {
+            String imageBase64 = imageExecutor.doImageGet(image.getImageId());
+            //填充特征值请求列表
+            requestBodyList.add(new FeatureBody(imageBase64, image.getImageId(), Optional.of(image.getLibId()).orElse("0")));
+            //根据imagebase65获取 xy rect
+            String[] rect = fiServiceExecutor.doFaceDetect(imageBase64);
+            image.setLeftTopX(rect[0]);
+            image.setLeftTopY(rect[1]);
+            image.setRightBtmX(rect[2]);
+            image.setRightBtmY(rect[3]);
+        }
+
+        //包含特征值和图片id的列表
+        List<FeatureBody> featureBodyList = fiServiceExecutor.doFeatureGen(requestBodyList);
+
+        //完整数据的列表
+        List<ImageFeatureModel> featureModels = mergeTempFeature(featureBodyList, imageList);
+
         //TODO
         //写入数据库
-        return ResponseList.DEFAULT_SUCCESS_MESSAGE.getResponseWithData(imageFeatureModelList);
+
+
+        return ResponseList.DEFAULT_SUCCESS_MESSAGE.getResponseWithData(featureModels);
     }
 
 
@@ -98,4 +110,21 @@ public class FiService {
         return ResponseList.DEFAULT_SUCCESS_MESSAGE.getResponseWithData(data);
     }
 
+    //合并列表
+    private List<ImageFeatureModel> mergeTempFeature(List<FeatureBody> tempImageFeatures, List<ImageFeatureModel> imageList) {
+        Preconditions.checkArgument(tempImageFeatures.size() == imageList.size(), "xy列表长度和特征值列表长度不匹配");
+
+        Iterator<ImageFeatureModel> iterator = imageList.iterator();
+
+        for (FeatureBody tempFeature : tempImageFeatures) {
+            ImageFeatureModel image = iterator.next();
+
+            if (tempFeature.getGuid().equals(image.getImageId())) {
+                image.setFeature(tempFeature.getFeature());
+            }
+
+        }
+
+        return imageList;
+    }
 }

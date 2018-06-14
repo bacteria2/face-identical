@@ -20,6 +20,6 @@ public class ErrorController {
     @ExceptionHandler(value = Exception.class)
     public CommonResponse errorHandler(Exception ex) {
         log.error("服务器内部错误: ", ex);
-        return ResponseList.DEFAULT_FAIL_MESSAGE.getResponse(ex.getMessage(), null);
+        return ResponseList.DEFAULT_FAIL_MESSAGE.getResponse(String.format("服务器内部错误,Exception:%s Message:%s",ex.getClass(), ex.getMessage()), null);
     }
 }

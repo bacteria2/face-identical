@@ -1,24 +1,30 @@
-package com.pingan.fi.algorithm.engine;
-
-import com.pingan.fi.algorithm.model.fi.ImageFeatureModel;
+package com.pingan.fi.algorithm.model.fi;
 
 /**
  * @author IonCannon
- * @date 2018/6/13
- * @decription :  特征值临时中专对象
+ * @date 2018/6/14
+ * @decription : content
  */
-public class TempImageFeature  {
+public class FeatureBody {
+
+    private String imagebase64;
     private String guid;
     private String libid;
     private String feature;
 
-    public TempImageFeature() {
-    }
 
-    public TempImageFeature(String guid, String libid, String feature) {
+    public FeatureBody(String imagebase64, String guid, String libid) {
+        this.imagebase64 = imagebase64;
         this.guid = guid;
         this.libid = libid;
-        this.feature = feature;
+    }
+
+    public String getImagebase64() {
+        return imagebase64;
+    }
+
+    public void setImagebase64(String imagebase64) {
+        this.imagebase64 = imagebase64;
     }
 
     public String getGuid() {

@@ -37,32 +37,26 @@ public class ImageExecutor extends AbstractExecutor {
     /**
      *  <p>下载图片</p>
      * */
-    public String doImageGet(String imageId) {
+    public String doImageGet(String imageId) throws IOException {
 
-        String imageBase64="";
-        try {
-            String  fetchUrl = getDownloadNode(imageId);
-            log.debug("start download,imageId:{}",imageId);
+        String  fetchUrl = getDownloadNode(imageId);
+        log.debug("start download,imageId:{}",imageId);
 
-            Content content = Request.Get(fetchUrl)
-                    .connectTimeout(imageServerInfo.getTimeout())
-                    .socketTimeout(imageServerInfo.getTimeout())
-                    .execute()
-                    .returnContent();
-            JSONObject jsonObject=ifSuccessGetObject(content);
+        Content content = Request.Get(fetchUrl)
+                .connectTimeout(imageServerInfo.getTimeout())
+                .socketTimeout(imageServerInfo.getTimeout())
+                .execute()
+                .returnContent();
+        JSONObject jsonObject=ifSuccessGetObject(content);
 
-            imageBase64= jsonObject.getString("data");
-        } catch (Exception e) {
-            log.error("获取图片base64编码错误:",e);
-        }
-        return imageBase64;
+        return jsonObject.getString("data");
     }
 
 
     /**
      * 请求海康下载节点,组装成url返回
      */
-    private String getDownloadNode(String imageId) throws Exception {
+    private String getDownloadNode(String imageId) throws IOException {
         log.debug("searching most fast download node:");
         String timeStamp = Long.toString(System.currentTimeMillis());
         String sign = sign(timeStamp);

@@ -16,14 +16,11 @@ eureka:
 server:
   fi:
     uriPrefix: /bioauth/faceService
-    host: 10.180.121.141
-    port: 8080
-    protocol: http
+    hostname: 10.180.121.141:8080
   image:
     username: test
     password:  test
-    hostname:  localhost
-
+    hostname:  localhost:8788
 logging:
   file: algorithm-service-out.log
   path: ./logs/

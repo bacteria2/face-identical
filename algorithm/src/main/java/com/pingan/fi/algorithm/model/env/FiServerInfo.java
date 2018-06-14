@@ -15,7 +15,6 @@ public class FiServerInfo {
 
     private String hostname;
 
-
     private String protocol;
 
     private int timeout=2000;

@@ -9,7 +9,7 @@ import com.alibaba.fastjson.annotation.JSONField;
  */
 public class ImageFeatureModel {
 
-    private String imageBase64;
+
     private String feature;
     private String imageId;
     private String libId;
@@ -77,7 +77,6 @@ public class ImageFeatureModel {
         this.feature = feature;
     }
 
-    @JSONField(name = "guid")
     public String getImageId() {
         return imageId;
     }
@@ -94,11 +93,4 @@ public class ImageFeatureModel {
         this.libId = libId;
     }
 
-    public String getImageBase64() {
-        return imageBase64;
-    }
-
-    public void setImageBase64(String imageBase64) {
-        this.imageBase64 = imageBase64;
-    }
 }

@@ -10,7 +10,7 @@ import com.google.common.collect.Lists;
 import com.pingan.fi.algorithm.engine.AbstractExecutor;
 import com.pingan.fi.algorithm.engine.AlgorithmCastException;
 import com.pingan.fi.algorithm.engine.ServiceUrl;
-import com.pingan.fi.algorithm.engine.TempImageFeature;
+import com.pingan.fi.algorithm.model.fi.FeatureBody;
 import com.pingan.fi.algorithm.model.fi.ImageFeatureModel;
 import com.pingan.fi.algorithm.model.env.FiServerInfo;
 import com.pingan.fi.common.CommonResponse;
@@ -71,11 +71,10 @@ public class FiServiceExecutor extends AbstractExecutor {
                 .connectTimeout(serverInfo.getTimeout())
                 .execute()
                 .returnContent();
-        JSONObject resp = ifSuccessGet(content, JSONObject.class);
 
         log.info("response from 1v1 service");
 
-        return resp.getFloat("similarity");
+        return ifSuccessGet("similarity", content, Float.class);
     }
 
     /**
@@ -98,21 +97,20 @@ public class FiServiceExecutor extends AbstractExecutor {
      */
     public String[] doFaceDetect(String imageBase64) {
         log.info("do call face detect");
+
         try {
             Content content = Request.Post(urlFormat(ServiceUrl.FaceDetect))
-                    .bodyString(String.format("{\"imagebase64\":%s,\"checkQuality\":0}", imageBase64), ContentType.APPLICATION_JSON)
+                    .bodyString(String.format("{\"imagebase64\":\"%s\",\"checkQuality\":0}", imageBase64), ContentType.APPLICATION_JSON)
                     .socketTimeout(serverInfo.getTimeout())
                     .connectTimeout(serverInfo.getTimeout())
                     .execute()
                     .returnContent();
-            String rect = ifSuccessGet(content, String.class);
-
+            String  rect = ifSuccessGet("rect", content, String.class);
             log.info("finish call face detect,rect is {}", rect);
-
             if (!StringUtils.isEmpty(rect))
                 return rect.split(",");
         } catch (AlgorithmCastException | IOException e) {
-            log.error("detect error", e);
+          log.error("request rect error,return empty result",e);
         }
         return new String[]{"", "", "", ""};
     }
@@ -123,16 +121,10 @@ public class FiServiceExecutor extends AbstractExecutor {
      * @param imageList 图片的base64字符串
      * @return 填充feature信息的列表
      */
-    public List<ImageFeatureModel> doFeatureGen(List<ImageFeatureModel> imageList) throws Exception {
+    public List<FeatureBody> doFeatureGen(List<FeatureBody> imageList) throws IOException, AlgorithmCastException {
         log.info("call feature generate  service");
 
-        //请求参数包装
-        List<TempImageFeature> requestParam = imageList
-                .stream()
-                .map(this::getFeatureGenParameterMap)
-                .collect(Collectors.toList());
-
-        Map data = ImmutableMap.of("data", requestParam);
+        Map data = ImmutableMap.of("data", imageList);
 
         //发送请求并且将返回结果转换为JSONObject
         Content content = Request.Post(urlFormat(ServiceUrl.FeatureGeneration))
@@ -143,23 +135,16 @@ public class FiServiceExecutor extends AbstractExecutor {
                 .returnContent();
 
         log.info("finish  feature generate");
-        return ifSuccessGetList(content, TempImageFeature.class).stream()
-                .map(temp -> new ImageFeatureModel(temp.getFeature(), temp.getGuid(), temp.getLibid())).collect(Collectors.toList());
+        return ifSuccessGetList(content);
     }
-
-
-    private TempImageFeature getFeatureGenParameterMap(ImageFeatureModel image) {
-        return new TempImageFeature(image.getImageId(), image.getLibId(), image.getFeature());
-    }
-
 
     //检查返回是否成功,成功返回则对象
-    private <T> T ifSuccessGet(Content content, Class<T> tClass) throws AlgorithmCastException {
-        return isRtnSuccess(content).getObject("result", tClass);
+    private <T> T ifSuccessGet(String key, Content content, Class<T> tClass) throws AlgorithmCastException {
+        return isRtnSuccess(content).getObject(key, tClass);
     }
 
-    private <T> List<T> ifSuccessGetList(Content content, Class<T> tClass) throws AlgorithmCastException {
-        return isRtnSuccess(content).getObject("result", new TypeReference<List<T>>() {
+    private List<FeatureBody> ifSuccessGetList(Content content) throws AlgorithmCastException {
+        return isRtnSuccess(content).getObject("result", new TypeReference<List<FeatureBody>>() {
         });
     }
 
