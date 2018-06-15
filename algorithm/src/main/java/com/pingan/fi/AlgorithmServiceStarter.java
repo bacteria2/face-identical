@@ -8,13 +8,13 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+
 import org.springframework.context.annotation.Bean;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 
 @SpringBootApplication
-@EnableEurekaClient
+//@EnableEurekaClient
 //@EnableConfigurationProperties
 @EnableSwagger2
 public class AlgorithmServiceStarter {

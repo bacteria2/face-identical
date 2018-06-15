@@ -10,12 +10,15 @@ import com.pingan.fi.algorithm.model.fi.ImageFeatureModel;
 import com.pingan.fi.common.CommonResponse;
 import com.pingan.fi.common.ResponseList;
 import com.pingan.fi.common.client.DatabaseService;
+import com.pingan.fi.database.model.FiImageFeature;
+import com.pingan.fi.database.services.FiImageFeatureService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -35,7 +38,7 @@ public class FiService {
     ImageExecutor imageExecutor;
 
     @Autowired
-    AlgorithmDataService databaseService;
+    FiImageFeatureService databaseService;
 
 
     public CommonResponse search1VN() {
@@ -92,7 +95,7 @@ public class FiService {
         List<Map> featureBodyList = fiServiceExecutor.doFeatureGen(requestBodyList);
 
         //完整数据的列表
-        List<ImageFeatureModel> featureMap = mergeTempFeature(featureBodyList, imageList);
+        List<FiImageFeature> featureMap = mergeTempFeature(featureBodyList, imageList);
 
         //写入数据库
         databaseService.insertFeatureBatch(featureMap);
@@ -118,23 +121,38 @@ public class FiService {
     }
 
     //合并列表
-    private List<ImageFeatureModel> mergeTempFeature(List<Map> tempImageFeatures, List<ImageFeatureModel> imageList) {
+    private List<FiImageFeature> mergeTempFeature(List<Map> tempImageFeatures, List<ImageFeatureModel> imageList) {
         Preconditions.checkArgument(tempImageFeatures.size() == imageList.size(), "xy列表长度和特征值列表长度不匹配");
 
         Iterator<ImageFeatureModel> iterator = imageList.iterator();
 
-        List<Map> mapList=new LinkedList<>();
+        List<FiImageFeature> mapList=new LinkedList<>();
 
         for (Map tempMap : tempImageFeatures) {
             ImageFeatureModel image = iterator.next();
-
-
             Object guid=tempMap.get("guid");
+            FiImageFeature imageFeature=new FiImageFeature();
             if (guid!=null&&guid.equals(image.getImageId())) {
-                image.setFeature(tempMap.get("feature").toString());
+                imageFeature.setFeature(tempMap.get("feature").toString());
             }
+
+            imageFeature.setImageId(image.getImageId());
+            imageFeature.setLibId(image.getLibId());
+
+            imageFeature.setTopLeftX(Integer.valueOf(image.getLeftTopX()));
+            imageFeature.setTopLeftY(Integer.valueOf(image.getLeftTopY()));
+            imageFeature.setBottomRightX(Integer.valueOf(image.getRightBtmX()));
+            imageFeature.setBottomRightY(Integer.valueOf(image.getRightBtmY()));
+
+            imageFeature.setCreator("user");
+            imageFeature.setUpdator("user");
+
+            imageFeature.setCreateTime(LocalDateTime.now());
+            imageFeature.setCreateTime(LocalDateTime.now());
+
+            mapList.add(imageFeature);
         }
-        return imageList;
+        return mapList;
     }
 
     private Map newRequestBodyMap(String imageBase64,String imageId,String libId){
@@ -143,6 +161,5 @@ public class FiService {
         map.put("guid",imageId);
         map.put("libid",libId);
         return map;
-
     }
 }

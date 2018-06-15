@@ -4,7 +4,6 @@ import com.pingan.fi.algorithm.model.fi.ImageFeatureModel;
 import com.pingan.fi.common.CommonResponse;
 import com.pingan.fi.common.ResponseList;
 import com.pingan.fi.common.client.DatabaseService;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +16,7 @@ import java.util.Map;
  * @date 2018/6/15
  * @decription : content
  */
-@FeignClient(value = "database-service",fallback = DatabaseServiceErrorHandler.class)
+//@FeignClient(value = "database-service",fallback = DatabaseServiceErrorHandler.class)
 public interface AlgorithmDataService extends DatabaseService {
 
     @PostMapping(value = "/feature/insertBatch",headers = "Content-Type:application/json")

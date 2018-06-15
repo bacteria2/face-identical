@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @date 2018/6/12
  * @decription : content
  */
-@RestControllerAdvice
+//@RestControllerAdvice
 public class ErrorController  extends CommonErrorController {
 
 }

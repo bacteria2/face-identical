@@ -2,7 +2,7 @@ package com.pingan.fi.common.client;
 
 import com.pingan.fi.common.CommonResponse;
 import com.pingan.fi.common.ResponseList;
-import org.springframework.cloud.openfeign.FeignClient;
+//import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
