@@ -9,6 +9,7 @@ ENV JAR_NAME propaganda-platform-1.0-SNAPSHOT.jar
 #bulid
 RUN maven clean
 RUN maven package
+RUN yum insall
 
 #copy
 

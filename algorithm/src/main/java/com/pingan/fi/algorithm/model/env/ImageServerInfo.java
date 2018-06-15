@@ -13,7 +13,7 @@ public class ImageServerInfo {
 
     private String hostname;
 
-    private String protocol;
+    private String protocol="http";
 
     private int timeout=1000;
 

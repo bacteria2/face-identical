@@ -1,15 +1,12 @@
-package com.pingan.fi.database.dao;
+package com.pingan.fi.database.dao.base;
 
 import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import com.pingan.fi.database.model.FiImageFeature;
-
 /**
 *  @author author
 */
-@Mapper
-public interface FiImageFeatureMapper{
+public interface FiImageFeatureBaseDao {
 
     int insertFiImageFeature(FiImageFeature object);
 

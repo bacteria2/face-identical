@@ -121,7 +121,7 @@ public class FiServiceExecutor extends AbstractExecutor {
      * @param imageList 图片的base64字符串
      * @return 填充feature信息的列表
      */
-    public List<FeatureBody> doFeatureGen(List<FeatureBody> imageList) throws IOException, AlgorithmCastException {
+    public List<Map> doFeatureGen(List<Map> imageList) throws IOException, AlgorithmCastException {
         log.info("call feature generate  service");
 
         Map data = ImmutableMap.of("data", imageList);
@@ -143,9 +143,8 @@ public class FiServiceExecutor extends AbstractExecutor {
         return isRtnSuccess(content).getObject(key, tClass);
     }
 
-    private List<FeatureBody> ifSuccessGetList(Content content) throws AlgorithmCastException {
-        return isRtnSuccess(content).getObject("result", new TypeReference<List<FeatureBody>>() {
-        });
+    private List<Map> ifSuccessGetList(Content content) throws AlgorithmCastException {
+        return isRtnSuccess(content).getJSONArray("result").toJavaList(Map.class);
     }
 
     private JSONObject isRtnSuccess(Content content) throws AlgorithmCastException {

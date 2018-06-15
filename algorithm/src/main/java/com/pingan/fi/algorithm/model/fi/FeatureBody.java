@@ -12,6 +12,8 @@ public class FeatureBody {
     private String libid;
     private String feature;
 
+    public FeatureBody() {
+    }
 
     public FeatureBody(String imagebase64, String guid, String libid) {
         this.imagebase64 = imagebase64;

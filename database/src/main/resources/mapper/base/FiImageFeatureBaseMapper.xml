@@ -1,0 +1,867 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pingan.fi.database.dao.base.FiImageFeatureBaseDao">
+
+
+    <insert id="insertFiImageFeature"  useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `fi_image_feature`
+        (
+        <trim suffixOverrides=",">
+                    <if test="imageId!=null">
+                        `image_id`,
+                    </if>
+                    <if test="feature!=null">
+                        `feature`,
+                    </if>
+                    <if test="charact!=null">
+                        `charact`,
+                    </if>
+                    <if test="picPath!=null">
+                        `pic_path`,
+                    </if>
+                    <if test="libId!=null">
+                        `lib_id`,
+                    </if>
+                    <if test="topLeftX!=null">
+                        `top_left_x`,
+                    </if>
+                    <if test="topLeftY!=null">
+                        `top_left_y`,
+                    </if>
+                    <if test="bottomRightX!=null">
+                        `bottom_right_x`,
+                    </if>
+                    <if test="bottomRightY!=null">
+                        `bottom_right_y`,
+                    </if>
+                    <if test="creator!=null">
+                        `creator`,
+                    </if>
+                    <if test="createTime!=null">
+                        `create_time`,
+                    </if>
+                    <if test="updator!=null">
+                        `updator`,
+                    </if>
+                    <if test="updateTime!=null">
+                        `update_time`,
+                    </if>
+        </trim>
+        )
+        VALUES
+        (
+        <trim suffixOverrides=",">
+                <if test="imageId!=null">
+                    #{imageId},
+                </if>
+                <if test="feature!=null">
+                    #{feature},
+                </if>
+                <if test="charact!=null">
+                    #{charact},
+                </if>
+                <if test="picPath!=null">
+                    #{picPath},
+                </if>
+                <if test="libId!=null">
+                    #{libId},
+                </if>
+                <if test="topLeftX!=null">
+                    #{topLeftX},
+                </if>
+                <if test="topLeftY!=null">
+                    #{topLeftY},
+                </if>
+                <if test="bottomRightX!=null">
+                    #{bottomRightX},
+                </if>
+                <if test="bottomRightY!=null">
+                    #{bottomRightY},
+                </if>
+                <if test="creator!=null">
+                    #{creator},
+                </if>
+                <if test="createTime!=null">
+                    #{createTime},
+                </if>
+                <if test="updator!=null">
+                    #{updator},
+                </if>
+                <if test="updateTime!=null">
+                    #{updateTime},
+                </if>
+        </trim>
+        )
+    </insert>
+
+
+
+
+    <update id="updateFiImageFeature">
+        UPDATE `fi_image_feature`
+        SET
+        <trim suffixOverrides=",">
+            <if test="imageId != null and imageId!=''">
+                `image_id` = #{imageId},
+            </if>
+            <if test="feature != null and feature!=''">
+                `feature` = #{feature},
+            </if>
+            <if test="charact != null and charact!=''">
+                `charact` = #{charact},
+            </if>
+            <if test="picPath != null and picPath!=''">
+                `pic_path` = #{picPath},
+            </if>
+            <if test="libId != null and libId!=''">
+                `lib_id` = #{libId},
+            </if>
+            <if test="topLeftX != null">
+                `top_left_x` = #{topLeftX},
+            </if>
+            <if test="topLeftY != null">
+                `top_left_y` = #{topLeftY},
+            </if>
+            <if test="bottomRightX != null">
+                `bottom_right_x` = #{bottomRightX},
+            </if>
+            <if test="bottomRightY != null">
+                `bottom_right_y` = #{bottomRightY},
+            </if>
+            <if test="creator != null and creator!=''">
+                `creator` = #{creator},
+            </if>
+            <if test="createTime != null">
+                `create_time` = #{createTime},
+            </if>
+            <if test="updator != null and updator!=''">
+                `updator` = #{updator},
+            </if>
+            <if test="updateTime != null">
+                `update_time` = #{updateTime},
+            </if>
+        </trim>
+        WHERE
+        <trim suffixOverrides="and">
+            <if test="id!=null">
+                `id` = #{id} and
+            </if>
+            <if test="imageId!=null">
+                `imageId` = #{id} and
+            </if>
+        </trim>
+    </update>
+
+
+
+    <resultMap type="com.pingan.fi.database.model.FiImageFeature" id="FiImageFeatureMap">
+        <result property="id" column="id"/>
+        <result property="imageId" column="image_id"/>
+        <result property="feature" column="feature"/>
+        <result property="charact" column="charact"/>
+        <result property="picPath" column="pic_path"/>
+        <result property="libId" column="lib_id"/>
+        <result property="topLeftX" column="top_left_x"/>
+        <result property="topLeftY" column="top_left_y"/>
+        <result property="bottomRightX" column="bottom_right_x"/>
+        <result property="bottomRightY" column="bottom_right_y"/>
+        <result property="creator" column="creator"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updator" column="updator"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+
+    <select id="queryFiImageFeature" resultMap="FiImageFeatureMap">
+        select
+        <include refid="baseResult"></include>
+        from  `fi_image_feature`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="id != null">
+                `id` = #{id} and
+            </if>
+            <if test="imageId != null and imageId!=''">
+                `image_id` = #{imageId} and
+            </if>
+            <if test="feature != null and feature!=''">
+                `feature` = #{feature} and
+            </if>
+            <if test="charact != null and charact!=''">
+                `charact` = #{charact} and
+            </if>
+            <if test="picPath != null and picPath!=''">
+                `pic_path` = #{picPath} and
+            </if>
+            <if test="libId != null and libId!=''">
+                `lib_id` = #{libId} and
+            </if>
+            <if test="topLeftX != null">
+                `top_left_x` = #{topLeftX} and
+            </if>
+            <if test="topLeftY != null">
+                `top_left_y` = #{topLeftY} and
+            </if>
+            <if test="bottomRightX != null">
+                `bottom_right_x` = #{bottomRightX} and
+            </if>
+            <if test="bottomRightY != null">
+                `bottom_right_y` = #{bottomRightY} and
+            </if>
+            <if test="creator != null and creator!=''">
+                `creator` = #{creator} and
+            </if>
+            <if test="createTime != null">
+                `create_time` = #{createTime} and
+            </if>
+            <if test="updator != null and updator!=''">
+                `updator` = #{updator} and
+            </if>
+            <if test="updateTime != null">
+                `update_time` = #{updateTime} and
+            </if>
+            <if test = "(_parameter instanceof com.pingan.fi.database.model.FiImageFeature$QueryBuilder) == true">
+                <if test="idList != null">
+                    `id` in
+                    <foreach collection="idList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="idSt !=null">
+                    `id` >= #{idSt} and
+                </if>
+                <if test="idEd!=null">
+                    `id` &lt;= #{idEd} and
+                </if>
+                <if test="imageIdList != null">
+                    `image_id` in
+                    <foreach collection="imageIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyImageId!=null and fuzzyImageId.size()>0">
+                    (
+                    <foreach collection="fuzzyImageId"  separator="or" item="item">
+                        `Image_id` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyImageId!=null and rightFuzzyImageId.size()>0">
+                    (
+                    <foreach collection="rightFuzzyImageId"  separator="or" item="item">
+                        `Image_id` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="featureList != null">
+                    `feature` in
+                    <foreach collection="featureList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyFeature!=null and fuzzyFeature.size()>0">
+                    (
+                    <foreach collection="fuzzyFeature"  separator="or" item="item">
+                        `Feature` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyFeature!=null and rightFuzzyFeature.size()>0">
+                    (
+                    <foreach collection="rightFuzzyFeature"  separator="or" item="item">
+                        `Feature` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="charactList != null">
+                    `charact` in
+                    <foreach collection="charactList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyCharact!=null and fuzzyCharact.size()>0">
+                    (
+                    <foreach collection="fuzzyCharact"  separator="or" item="item">
+                        `Charact` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyCharact!=null and rightFuzzyCharact.size()>0">
+                    (
+                    <foreach collection="rightFuzzyCharact"  separator="or" item="item">
+                        `Charact` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="picPathList != null">
+                    `pic_path` in
+                    <foreach collection="picPathList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyPicPath!=null and fuzzyPicPath.size()>0">
+                    (
+                    <foreach collection="fuzzyPicPath"  separator="or" item="item">
+                        `Pic_path` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyPicPath!=null and rightFuzzyPicPath.size()>0">
+                    (
+                    <foreach collection="rightFuzzyPicPath"  separator="or" item="item">
+                        `Pic_path` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="libIdList != null">
+                    `lib_id` in
+                    <foreach collection="libIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyLibId!=null and fuzzyLibId.size()>0">
+                    (
+                    <foreach collection="fuzzyLibId"  separator="or" item="item">
+                        `Lib_id` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyLibId!=null and rightFuzzyLibId.size()>0">
+                    (
+                    <foreach collection="rightFuzzyLibId"  separator="or" item="item">
+                        `Lib_id` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="topLeftXList != null">
+                    `top_left_x` in
+                    <foreach collection="topLeftXList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="topLeftXSt !=null">
+                    `top_left_x` >= #{topLeftXSt} and
+                </if>
+                <if test="topLeftXEd!=null">
+                    `top_left_x` &lt;= #{topLeftXEd} and
+                </if>
+                <if test="topLeftYList != null">
+                    `top_left_y` in
+                    <foreach collection="topLeftYList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="topLeftYSt !=null">
+                    `top_left_y` >= #{topLeftYSt} and
+                </if>
+                <if test="topLeftYEd!=null">
+                    `top_left_y` &lt;= #{topLeftYEd} and
+                </if>
+                <if test="bottomRightXList != null">
+                    `bottom_right_x` in
+                    <foreach collection="bottomRightXList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="bottomRightXSt !=null">
+                    `bottom_right_x` >= #{bottomRightXSt} and
+                </if>
+                <if test="bottomRightXEd!=null">
+                    `bottom_right_x` &lt;= #{bottomRightXEd} and
+                </if>
+                <if test="bottomRightYList != null">
+                    `bottom_right_y` in
+                    <foreach collection="bottomRightYList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="bottomRightYSt !=null">
+                    `bottom_right_y` >= #{bottomRightYSt} and
+                </if>
+                <if test="bottomRightYEd!=null">
+                    `bottom_right_y` &lt;= #{bottomRightYEd} and
+                </if>
+                <if test="creatorList != null">
+                    `creator` in
+                    <foreach collection="creatorList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyCreator!=null and fuzzyCreator.size()>0">
+                    (
+                    <foreach collection="fuzzyCreator"  separator="or" item="item">
+                        `Creator` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyCreator!=null and rightFuzzyCreator.size()>0">
+                    (
+                    <foreach collection="rightFuzzyCreator"  separator="or" item="item">
+                        `Creator` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="createTimeList != null">
+                    `create_time` in
+                    <foreach collection="createTimeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="createTimeSt !=null">
+                    `create_time` >= #{createTimeSt} and
+                </if>
+                <if test="createTimeEd!=null">
+                    `create_time` &lt;= #{createTimeEd} and
+                </if>
+                <if test="updatorList != null">
+                    `updator` in
+                    <foreach collection="updatorList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyUpdator!=null and fuzzyUpdator.size()>0">
+                    (
+                    <foreach collection="fuzzyUpdator"  separator="or" item="item">
+                        `Updator` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyUpdator!=null and rightFuzzyUpdator.size()>0">
+                    (
+                    <foreach collection="rightFuzzyUpdator"  separator="or" item="item">
+                        `Updator` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="updateTimeList != null">
+                    `update_time` in
+                    <foreach collection="updateTimeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="updateTimeSt !=null">
+                    `update_time` >= #{updateTimeSt} and
+                </if>
+                <if test="updateTimeEd!=null">
+                    `update_time` &lt;= #{updateTimeEd} and
+                </if>
+            </if>
+        </trim>
+    </select>
+
+    <select id="queryFiImageFeatureLimit1" resultMap="FiImageFeatureMap">
+        select
+        <include refid="baseResult"></include>
+        from  `fi_image_feature`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="id != null">
+                `id` = #{id} and
+            </if>
+            <if test="imageId != null and imageId!=''">
+                `image_id` = #{imageId} and
+            </if>
+            <if test="feature != null and feature!=''">
+                `feature` = #{feature} and
+            </if>
+            <if test="charact != null and charact!=''">
+                `charact` = #{charact} and
+            </if>
+            <if test="picPath != null and picPath!=''">
+                `pic_path` = #{picPath} and
+            </if>
+            <if test="libId != null and libId!=''">
+                `lib_id` = #{libId} and
+            </if>
+            <if test="topLeftX != null">
+                `top_left_x` = #{topLeftX} and
+            </if>
+            <if test="topLeftY != null">
+                `top_left_y` = #{topLeftY} and
+            </if>
+            <if test="bottomRightX != null">
+                `bottom_right_x` = #{bottomRightX} and
+            </if>
+            <if test="bottomRightY != null">
+                `bottom_right_y` = #{bottomRightY} and
+            </if>
+            <if test="creator != null and creator!=''">
+                `creator` = #{creator} and
+            </if>
+            <if test="createTime != null">
+                `create_time` = #{createTime} and
+            </if>
+            <if test="updator != null and updator!=''">
+                `updator` = #{updator} and
+            </if>
+            <if test="updateTime != null">
+                `update_time` = #{updateTime} and
+            </if>
+            <if test = "(_parameter instanceof com.pingan.fi.database.model.FiImageFeature$QueryBuilder) == true">
+                    <if test="idList != null">
+                        `id` in
+                        <foreach collection="idList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="idSt !=null">
+                    `id` >= #{idSt} and
+                </if>
+                <if test="idEd!=null">
+                    `id` &lt;= #{idEd} and
+                </if>
+                    <if test="imageIdList != null">
+                        `image_id` in
+                        <foreach collection="imageIdList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyImageId!=null and fuzzyImageId.size()>0">
+                    (
+                    <foreach collection="fuzzyImageId"  separator="or" item="item">
+                        `Image_id` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyImageId!=null and rightFuzzyImageId.size()>0">
+                    (
+                    <foreach collection="rightFuzzyImageId"  separator="or" item="item">
+                        `Image_id` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="featureList != null">
+                        `feature` in
+                        <foreach collection="featureList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyFeature!=null and fuzzyFeature.size()>0">
+                    (
+                    <foreach collection="fuzzyFeature"  separator="or" item="item">
+                        `Feature` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyFeature!=null and rightFuzzyFeature.size()>0">
+                    (
+                    <foreach collection="rightFuzzyFeature"  separator="or" item="item">
+                        `Feature` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="charactList != null">
+                        `charact` in
+                        <foreach collection="charactList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyCharact!=null and fuzzyCharact.size()>0">
+                    (
+                    <foreach collection="fuzzyCharact"  separator="or" item="item">
+                        `Charact` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyCharact!=null and rightFuzzyCharact.size()>0">
+                    (
+                    <foreach collection="rightFuzzyCharact"  separator="or" item="item">
+                        `Charact` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="picPathList != null">
+                        `pic_path` in
+                        <foreach collection="picPathList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyPicPath!=null and fuzzyPicPath.size()>0">
+                    (
+                    <foreach collection="fuzzyPicPath"  separator="or" item="item">
+                        `Pic_path` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyPicPath!=null and rightFuzzyPicPath.size()>0">
+                    (
+                    <foreach collection="rightFuzzyPicPath"  separator="or" item="item">
+                        `Pic_path` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="libIdList != null">
+                        `lib_id` in
+                        <foreach collection="libIdList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyLibId!=null and fuzzyLibId.size()>0">
+                    (
+                    <foreach collection="fuzzyLibId"  separator="or" item="item">
+                        `Lib_id` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyLibId!=null and rightFuzzyLibId.size()>0">
+                    (
+                    <foreach collection="rightFuzzyLibId"  separator="or" item="item">
+                        `Lib_id` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="topLeftXList != null">
+                        `top_left_x` in
+                        <foreach collection="topLeftXList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="topLeftXSt !=null">
+                    `top_left_x` >= #{topLeftXSt} and
+                </if>
+                <if test="topLeftXEd!=null">
+                    `top_left_x` &lt;= #{topLeftXEd} and
+                </if>
+                    <if test="topLeftYList != null">
+                        `top_left_y` in
+                        <foreach collection="topLeftYList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="topLeftYSt !=null">
+                    `top_left_y` >= #{topLeftYSt} and
+                </if>
+                <if test="topLeftYEd!=null">
+                    `top_left_y` &lt;= #{topLeftYEd} and
+                </if>
+                    <if test="bottomRightXList != null">
+                        `bottom_right_x` in
+                        <foreach collection="bottomRightXList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="bottomRightXSt !=null">
+                    `bottom_right_x` >= #{bottomRightXSt} and
+                </if>
+                <if test="bottomRightXEd!=null">
+                    `bottom_right_x` &lt;= #{bottomRightXEd} and
+                </if>
+                    <if test="bottomRightYList != null">
+                        `bottom_right_y` in
+                        <foreach collection="bottomRightYList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="bottomRightYSt !=null">
+                    `bottom_right_y` >= #{bottomRightYSt} and
+                </if>
+                <if test="bottomRightYEd!=null">
+                    `bottom_right_y` &lt;= #{bottomRightYEd} and
+                </if>
+                    <if test="creatorList != null">
+                        `creator` in
+                        <foreach collection="creatorList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyCreator!=null and fuzzyCreator.size()>0">
+                    (
+                    <foreach collection="fuzzyCreator"  separator="or" item="item">
+                        `Creator` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyCreator!=null and rightFuzzyCreator.size()>0">
+                    (
+                    <foreach collection="rightFuzzyCreator"  separator="or" item="item">
+                        `Creator` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="createTimeList != null">
+                        `create_time` in
+                        <foreach collection="createTimeList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="createTimeSt !=null">
+                    `create_time` >= #{createTimeSt} and
+                </if>
+                <if test="createTimeEd!=null">
+                    `create_time` &lt;= #{createTimeEd} and
+                </if>
+                    <if test="updatorList != null">
+                        `updator` in
+                        <foreach collection="updatorList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyUpdator!=null and fuzzyUpdator.size()>0">
+                    (
+                    <foreach collection="fuzzyUpdator"  separator="or" item="item">
+                        `Updator` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyUpdator!=null and rightFuzzyUpdator.size()>0">
+                    (
+                    <foreach collection="rightFuzzyUpdator"  separator="or" item="item">
+                        `Updator` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="updateTimeList != null">
+                        `update_time` in
+                        <foreach collection="updateTimeList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="updateTimeSt !=null">
+                    `update_time` >= #{updateTimeSt} and
+                </if>
+                <if test="updateTimeEd!=null">
+                    `update_time` &lt;= #{updateTimeEd} and
+                </if>
+            </if>
+        </trim>
+        limit 1
+    </select>
+
+    <sql id="allResult">
+        <trim suffixOverrides=",">
+        `id`,
+        `image_id`,
+        `feature`,
+        `charact`,
+        `pic_path`,
+        `lib_id`,
+        `top_left_x`,
+        `top_left_y`,
+        `bottom_right_x`,
+        `bottom_right_y`,
+        `creator`,
+        `create_time`,
+        `updator`,
+        `update_time`,
+        </trim>
+    </sql>
+
+
+
+    <sql id="baseResult">
+        <trim suffixOverrides=",">
+            <if test = "(_parameter instanceof com.pingan.fi.database.model.FiImageFeature$QueryBuilder) == true">
+
+                <if test="fetchFields==null">
+                    <include refid="allResult"></include>
+                </if>
+                <if test="fetchFields!=null">
+                    <if test="fetchFields.AllFields !=null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields ==null and fetchFields.fetchFields==null and fetchFields.excludeFields==null and fetchFields.otherFields==null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.fetchFields!=null">
+                    <if test="fetchFields.fetchFields.id==true">
+                        `id`,
+                    </if>
+                    <if test="fetchFields.fetchFields.imageId==true">
+                        `image_id`,
+                    </if>
+                    <if test="fetchFields.fetchFields.feature==true">
+                        `feature`,
+                    </if>
+                    <if test="fetchFields.fetchFields.charact==true">
+                        `charact`,
+                    </if>
+                    <if test="fetchFields.fetchFields.picPath==true">
+                        `pic_path`,
+                    </if>
+                    <if test="fetchFields.fetchFields.libId==true">
+                        `lib_id`,
+                    </if>
+                    <if test="fetchFields.fetchFields.topLeftX==true">
+                        `top_left_x`,
+                    </if>
+                    <if test="fetchFields.fetchFields.topLeftY==true">
+                        `top_left_y`,
+                    </if>
+                    <if test="fetchFields.fetchFields.bottomRightX==true">
+                        `bottom_right_x`,
+                    </if>
+                    <if test="fetchFields.fetchFields.bottomRightY==true">
+                        `bottom_right_y`,
+                    </if>
+                    <if test="fetchFields.fetchFields.creator==true">
+                        `creator`,
+                    </if>
+                    <if test="fetchFields.fetchFields.createTime==true">
+                        `create_time`,
+                    </if>
+                    <if test="fetchFields.fetchFields.updator==true">
+                        `updator`,
+                    </if>
+                    <if test="fetchFields.fetchFields.updateTime==true">
+                        `update_time`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
+                    <if test="fetchFields.excludeFields.id==null">
+                        `id`,
+                    </if>
+                    <if test="fetchFields.excludeFields.imageId==null">
+                        `image_id`,
+                    </if>
+                    <if test="fetchFields.excludeFields.feature==null">
+                        `feature`,
+                    </if>
+                    <if test="fetchFields.excludeFields.charact==null">
+                        `charact`,
+                    </if>
+                    <if test="fetchFields.excludeFields.picPath==null">
+                        `pic_path`,
+                    </if>
+                    <if test="fetchFields.excludeFields.libId==null">
+                        `lib_id`,
+                    </if>
+                    <if test="fetchFields.excludeFields.topLeftX==null">
+                        `top_left_x`,
+                    </if>
+                    <if test="fetchFields.excludeFields.topLeftY==null">
+                        `top_left_y`,
+                    </if>
+                    <if test="fetchFields.excludeFields.bottomRightX==null">
+                        `bottom_right_x`,
+                    </if>
+                    <if test="fetchFields.excludeFields.bottomRightY==null">
+                        `bottom_right_y`,
+                    </if>
+                    <if test="fetchFields.excludeFields.creator==null">
+                        `creator`,
+                    </if>
+                    <if test="fetchFields.excludeFields.createTime==null">
+                        `create_time`,
+                    </if>
+                    <if test="fetchFields.excludeFields.updator==null">
+                        `updator`,
+                    </if>
+                    <if test="fetchFields.excludeFields.updateTime==null">
+                        `update_time`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">
+                        <foreach collection="fetchFields.otherFields" index="index" item="item" separator=",">
+                        `#{item}`
+                        </foreach>
+                    </if>
+                </if>
+            </if>
+            <if test="(_parameter instanceof com.pingan.fi.database.model.FiImageFeature$QueryBuilder) == false" >
+                <include refid="allResult"></include>
+            </if>
+
+        </trim>
+    </sql>
+
+
+</mapper>

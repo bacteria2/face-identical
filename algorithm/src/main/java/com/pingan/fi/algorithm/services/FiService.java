@@ -1,6 +1,7 @@
 package com.pingan.fi.algorithm.services;
 
 import com.google.common.base.Preconditions;
+import com.pingan.fi.algorithm.client.AlgorithmDataService;
 import com.pingan.fi.algorithm.engine.AlgorithmCastException;
 import com.pingan.fi.algorithm.engine.impl.FiServiceExecutor;
 import com.pingan.fi.algorithm.engine.impl.ImageExecutor;
@@ -8,6 +9,7 @@ import com.pingan.fi.algorithm.model.fi.FeatureBody;
 import com.pingan.fi.algorithm.model.fi.ImageFeatureModel;
 import com.pingan.fi.common.CommonResponse;
 import com.pingan.fi.common.ResponseList;
+import com.pingan.fi.common.client.DatabaseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +34,18 @@ public class FiService {
     @Autowired
     ImageExecutor imageExecutor;
 
+    @Autowired
+    AlgorithmDataService databaseService;
+
 
     public CommonResponse search1VN() {
 
         return null;
     }
 
+    /**
+     * <p>1v1搜索</p>
+     * */
     public CommonResponse search1V1(String file1, String file2) throws Exception {
 
         log.info("get image from image repo file1:{},file2:{}", file1, file2);
@@ -64,15 +72,15 @@ public class FiService {
         log.info("request feature generate");
 
         //特征值批量参数列表请求初始化
-        List<FeatureBody> requestBodyList = new LinkedList<>();
+        List<Map> requestBodyList = new LinkedList<>();
 
 
         //请求图文库获得图片
         for (ImageFeatureModel image : imageList) {
             String imageBase64 = imageExecutor.doImageGet(image.getImageId());
             //填充特征值请求列表
-            requestBodyList.add(new FeatureBody(imageBase64, image.getImageId(), Optional.of(image.getLibId()).orElse("0")));
-            //根据imagebase65获取 xy rect
+            requestBodyList.add(newRequestBodyMap(imageBase64, image.getImageId(), Optional.of(image.getLibId()).orElse("0")));
+            //根据imagebase64获取 xy rect
             String[] rect = fiServiceExecutor.doFaceDetect(imageBase64);
             image.setLeftTopX(rect[0]);
             image.setLeftTopY(rect[1]);
@@ -81,16 +89,15 @@ public class FiService {
         }
 
         //包含特征值和图片id的列表
-        List<FeatureBody> featureBodyList = fiServiceExecutor.doFeatureGen(requestBodyList);
+        List<Map> featureBodyList = fiServiceExecutor.doFeatureGen(requestBodyList);
 
         //完整数据的列表
-        List<ImageFeatureModel> featureModels = mergeTempFeature(featureBodyList, imageList);
+        List<ImageFeatureModel> featureMap = mergeTempFeature(featureBodyList, imageList);
 
-        //TODO
         //写入数据库
+        databaseService.insertFeatureBatch(featureMap);
 
-
-        return ResponseList.DEFAULT_SUCCESS_MESSAGE.getResponseWithData(featureModels);
+        return ResponseList.DEFAULT_SUCCESS_MESSAGE.getResponse();
     }
 
 
@@ -111,20 +118,31 @@ public class FiService {
     }
 
     //合并列表
-    private List<ImageFeatureModel> mergeTempFeature(List<FeatureBody> tempImageFeatures, List<ImageFeatureModel> imageList) {
+    private List<ImageFeatureModel> mergeTempFeature(List<Map> tempImageFeatures, List<ImageFeatureModel> imageList) {
         Preconditions.checkArgument(tempImageFeatures.size() == imageList.size(), "xy列表长度和特征值列表长度不匹配");
 
         Iterator<ImageFeatureModel> iterator = imageList.iterator();
 
-        for (FeatureBody tempFeature : tempImageFeatures) {
+        List<Map> mapList=new LinkedList<>();
+
+        for (Map tempMap : tempImageFeatures) {
             ImageFeatureModel image = iterator.next();
 
-            if (tempFeature.getGuid().equals(image.getImageId())) {
-                image.setFeature(tempFeature.getFeature());
+
+            Object guid=tempMap.get("guid");
+            if (guid!=null&&guid.equals(image.getImageId())) {
+                image.setFeature(tempMap.get("feature").toString());
             }
-
         }
-
         return imageList;
+    }
+
+    private Map newRequestBodyMap(String imageBase64,String imageId,String libId){
+        Map map=new HashMap();
+        map.put("imagebase64",imageBase64);
+        map.put("guid",imageId);
+        map.put("libid",libId);
+        return map;
+
     }
 }

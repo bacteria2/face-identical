@@ -10,7 +10,7 @@ import java.util.List;
 */
 public class FiImageFeature implements Serializable {
 
-    private static final long serialVersionUID = 1528783994234L;
+    private static final long serialVersionUID = 1528943748579L;
 
 
     /**
@@ -24,7 +24,7 @@ public class FiImageFeature implements Serializable {
     * 
     * isNullAble:0
     */
-    private String image_id;
+    private String imageId;
 
     /**
     * 
@@ -42,25 +42,37 @@ public class FiImageFeature implements Serializable {
     * 
     * isNullAble:0,defaultVal:
     */
-    private String pic_path;
+    private String picPath;
 
     /**
     * 
     * isNullAble:0,defaultVal:
     */
-    private String lib_id;
+    private String libId;
 
     /**
     * 
-    * isNullAble:0
+    * isNullAble:1,defaultVal:0
     */
-    private Long vendor_id;
+    private Integer topLeftX;
 
     /**
     * 
-    * isNullAble:0
+    * isNullAble:1,defaultVal:0
     */
-    private Long position_id;
+    private Integer topLeftY;
+
+    /**
+    * 
+    * isNullAble:1,defaultVal:0
+    */
+    private Integer bottomRightX;
+
+    /**
+    * 
+    * isNullAble:1,defaultVal:0
+    */
+    private Integer bottomRightY;
 
     /**
     * 
@@ -72,7 +84,7 @@ public class FiImageFeature implements Serializable {
     * 
     * isNullAble:0
     */
-    private java.time.LocalDateTime create_time;
+    private java.time.LocalDateTime createTime;
 
     /**
     * 更新者
@@ -84,7 +96,7 @@ public class FiImageFeature implements Serializable {
     * 
     * isNullAble:0
     */
-    private java.time.LocalDateTime update_time;
+    private java.time.LocalDateTime updateTime;
 
 
     public void setId(Long id){
@@ -95,12 +107,12 @@ public class FiImageFeature implements Serializable {
         return this.id;
     }
 
-    public void setImage_id(String image_id){
-        this.image_id = image_id;
+    public void setImageId(String imageId){
+        this.imageId = imageId;
     }
 
-    public String getImage_id(){
-        return this.image_id;
+    public String getImageId(){
+        return this.imageId;
     }
 
     public void setFeature(String feature){
@@ -119,36 +131,52 @@ public class FiImageFeature implements Serializable {
         return this.charact;
     }
 
-    public void setPic_path(String pic_path){
-        this.pic_path = pic_path;
+    public void setPicPath(String picPath){
+        this.picPath = picPath;
     }
 
-    public String getPic_path(){
-        return this.pic_path;
+    public String getPicPath(){
+        return this.picPath;
     }
 
-    public void setLib_id(String lib_id){
-        this.lib_id = lib_id;
+    public void setLibId(String libId){
+        this.libId = libId;
     }
 
-    public String getLib_id(){
-        return this.lib_id;
+    public String getLibId(){
+        return this.libId;
     }
 
-    public void setVendor_id(Long vendor_id){
-        this.vendor_id = vendor_id;
+    public void setTopLeftX(Integer topLeftX){
+        this.topLeftX = topLeftX;
     }
 
-    public Long getVendor_id(){
-        return this.vendor_id;
+    public Integer getTopLeftX(){
+        return this.topLeftX;
     }
 
-    public void setPosition_id(Long position_id){
-        this.position_id = position_id;
+    public void setTopLeftY(Integer topLeftY){
+        this.topLeftY = topLeftY;
     }
 
-    public Long getPosition_id(){
-        return this.position_id;
+    public Integer getTopLeftY(){
+        return this.topLeftY;
+    }
+
+    public void setBottomRightX(Integer bottomRightX){
+        this.bottomRightX = bottomRightX;
+    }
+
+    public Integer getBottomRightX(){
+        return this.bottomRightX;
+    }
+
+    public void setBottomRightY(Integer bottomRightY){
+        this.bottomRightY = bottomRightY;
+    }
+
+    public Integer getBottomRightY(){
+        return this.bottomRightY;
     }
 
     public void setCreator(String creator){
@@ -159,12 +187,12 @@ public class FiImageFeature implements Serializable {
         return this.creator;
     }
 
-    public void setCreate_time(java.time.LocalDateTime create_time){
-        this.create_time = create_time;
+    public void setCreateTime(java.time.LocalDateTime createTime){
+        this.createTime = createTime;
     }
 
-    public java.time.LocalDateTime getCreate_time(){
-        return this.create_time;
+    public java.time.LocalDateTime getCreateTime(){
+        return this.createTime;
     }
 
     public void setUpdator(String updator){
@@ -175,28 +203,30 @@ public class FiImageFeature implements Serializable {
         return this.updator;
     }
 
-    public void setUpdate_time(java.time.LocalDateTime update_time){
-        this.update_time = update_time;
+    public void setUpdateTime(java.time.LocalDateTime updateTime){
+        this.updateTime = updateTime;
     }
 
-    public java.time.LocalDateTime getUpdate_time(){
-        return this.update_time;
+    public java.time.LocalDateTime getUpdateTime(){
+        return this.updateTime;
     }
     @Override
     public String toString() {
         return "FiImageFeature{" +
                 "id='" + id + '\'' +
-                "image_id='" + image_id + '\'' +
+                "imageId='" + imageId + '\'' +
                 "feature='" + feature + '\'' +
                 "charact='" + charact + '\'' +
-                "pic_path='" + pic_path + '\'' +
-                "lib_id='" + lib_id + '\'' +
-                "vendor_id='" + vendor_id + '\'' +
-                "position_id='" + position_id + '\'' +
+                "picPath='" + picPath + '\'' +
+                "libId='" + libId + '\'' +
+                "topLeftX='" + topLeftX + '\'' +
+                "topLeftY='" + topLeftY + '\'' +
+                "bottomRightX='" + bottomRightX + '\'' +
+                "bottomRightY='" + bottomRightY + '\'' +
                 "creator='" + creator + '\'' +
-                "create_time='" + create_time + '\'' +
+                "createTime='" + createTime + '\'' +
                 "updator='" + updator + '\'' +
-                "update_time='" + update_time + '\'' +
+                "updateTime='" + updateTime + '\'' +
             '}';
     }
 
@@ -228,19 +258,19 @@ public class FiImageFeature implements Serializable {
             return this.idEd;
         }
 
-        private List<String> image_idList;
+        private List<String> imageIdList;
 
 
-        private List<String> fuzzyImage_id;
+        private List<String> fuzzyImageId;
 
-        public List<String> getFuzzyImage_id(){
-            return this.fuzzyImage_id;
+        public List<String> getFuzzyImageId(){
+            return this.fuzzyImageId;
         }
 
-        private List<String> rightFuzzyImage_id;
+        private List<String> rightFuzzyImageId;
 
-        public List<String> getRightFuzzyImage_id(){
-            return this.rightFuzzyImage_id;
+        public List<String> getRightFuzzyImageId(){
+            return this.rightFuzzyImageId;
         }
         private List<String> featureList;
 
@@ -270,60 +300,88 @@ public class FiImageFeature implements Serializable {
         public List<String> getRightFuzzyCharact(){
             return this.rightFuzzyCharact;
         }
-        private List<String> pic_pathList;
+        private List<String> picPathList;
 
 
-        private List<String> fuzzyPic_path;
+        private List<String> fuzzyPicPath;
 
-        public List<String> getFuzzyPic_path(){
-            return this.fuzzyPic_path;
+        public List<String> getFuzzyPicPath(){
+            return this.fuzzyPicPath;
         }
 
-        private List<String> rightFuzzyPic_path;
+        private List<String> rightFuzzyPicPath;
 
-        public List<String> getRightFuzzyPic_path(){
-            return this.rightFuzzyPic_path;
+        public List<String> getRightFuzzyPicPath(){
+            return this.rightFuzzyPicPath;
         }
-        private List<String> lib_idList;
+        private List<String> libIdList;
 
 
-        private List<String> fuzzyLib_id;
+        private List<String> fuzzyLibId;
 
-        public List<String> getFuzzyLib_id(){
-            return this.fuzzyLib_id;
-        }
-
-        private List<String> rightFuzzyLib_id;
-
-        public List<String> getRightFuzzyLib_id(){
-            return this.rightFuzzyLib_id;
-        }
-        private List<Long> vendor_idList;
-
-        private Long vendor_idSt;
-
-        private Long vendor_idEd;
-
-        public Long getVendor_idSt(){
-            return this.vendor_idSt;
+        public List<String> getFuzzyLibId(){
+            return this.fuzzyLibId;
         }
 
-        public Long getVendor_idEd(){
-            return this.vendor_idEd;
+        private List<String> rightFuzzyLibId;
+
+        public List<String> getRightFuzzyLibId(){
+            return this.rightFuzzyLibId;
+        }
+        private List<Integer> topLeftXList;
+
+        private Integer topLeftXSt;
+
+        private Integer topLeftXEd;
+
+        public Integer getTopLeftXSt(){
+            return this.topLeftXSt;
         }
 
-        private List<Long> position_idList;
-
-        private Long position_idSt;
-
-        private Long position_idEd;
-
-        public Long getPosition_idSt(){
-            return this.position_idSt;
+        public Integer getTopLeftXEd(){
+            return this.topLeftXEd;
         }
 
-        public Long getPosition_idEd(){
-            return this.position_idEd;
+        private List<Integer> topLeftYList;
+
+        private Integer topLeftYSt;
+
+        private Integer topLeftYEd;
+
+        public Integer getTopLeftYSt(){
+            return this.topLeftYSt;
+        }
+
+        public Integer getTopLeftYEd(){
+            return this.topLeftYEd;
+        }
+
+        private List<Integer> bottomRightXList;
+
+        private Integer bottomRightXSt;
+
+        private Integer bottomRightXEd;
+
+        public Integer getBottomRightXSt(){
+            return this.bottomRightXSt;
+        }
+
+        public Integer getBottomRightXEd(){
+            return this.bottomRightXEd;
+        }
+
+        private List<Integer> bottomRightYList;
+
+        private Integer bottomRightYSt;
+
+        private Integer bottomRightYEd;
+
+        public Integer getBottomRightYSt(){
+            return this.bottomRightYSt;
+        }
+
+        public Integer getBottomRightYEd(){
+            return this.bottomRightYEd;
         }
 
         private List<String> creatorList;
@@ -340,18 +398,18 @@ public class FiImageFeature implements Serializable {
         public List<String> getRightFuzzyCreator(){
             return this.rightFuzzyCreator;
         }
-        private List<java.time.LocalDateTime> create_timeList;
+        private List<java.time.LocalDateTime> createTimeList;
 
-        private java.time.LocalDateTime create_timeSt;
+        private java.time.LocalDateTime createTimeSt;
 
-        private java.time.LocalDateTime create_timeEd;
+        private java.time.LocalDateTime createTimeEd;
 
-        public java.time.LocalDateTime getCreate_timeSt(){
-            return this.create_timeSt;
+        public java.time.LocalDateTime getCreateTimeSt(){
+            return this.createTimeSt;
         }
 
-        public java.time.LocalDateTime getCreate_timeEd(){
-            return this.create_timeEd;
+        public java.time.LocalDateTime getCreateTimeEd(){
+            return this.createTimeEd;
         }
 
         private List<String> updatorList;
@@ -368,18 +426,18 @@ public class FiImageFeature implements Serializable {
         public List<String> getRightFuzzyUpdator(){
             return this.rightFuzzyUpdator;
         }
-        private List<java.time.LocalDateTime> update_timeList;
+        private List<java.time.LocalDateTime> updateTimeList;
 
-        private java.time.LocalDateTime update_timeSt;
+        private java.time.LocalDateTime updateTimeSt;
 
-        private java.time.LocalDateTime update_timeEd;
+        private java.time.LocalDateTime updateTimeEd;
 
-        public java.time.LocalDateTime getUpdate_timeSt(){
-            return this.update_timeSt;
+        public java.time.LocalDateTime getUpdateTimeSt(){
+            return this.updateTimeSt;
         }
 
-        public java.time.LocalDateTime getUpdate_timeEd(){
-            return this.update_timeEd;
+        public java.time.LocalDateTime getUpdateTimeEd(){
+            return this.updateTimeEd;
         }
 
         private QueryBuilder (){
@@ -439,73 +497,73 @@ public class FiImageFeature implements Serializable {
 
 
 
-        public QueryBuilder fuzzyImage_id (List<String> fuzzyImage_id){
-            this.fuzzyImage_id = fuzzyImage_id;
+        public QueryBuilder fuzzyImageId (List<String> fuzzyImageId){
+            this.fuzzyImageId = fuzzyImageId;
             return this;
         }
 
-        public QueryBuilder fuzzyImage_id (String ... fuzzyImage_id){
-            if (fuzzyImage_id != null){
+        public QueryBuilder fuzzyImageId (String ... fuzzyImageId){
+            if (fuzzyImageId != null){
                 List<String> list = new ArrayList<>();
-                for (String item : fuzzyImage_id){
+                for (String item : fuzzyImageId){
                     if (item != null){
                         list.add(item);
                     }
                 }
-                this.fuzzyImage_id = list;
+                this.fuzzyImageId = list;
             }
             return this;
         }
 
-        public QueryBuilder rightFuzzyImage_id (List<String> rightFuzzyImage_id){
-            this.rightFuzzyImage_id = rightFuzzyImage_id;
+        public QueryBuilder rightFuzzyImageId (List<String> rightFuzzyImageId){
+            this.rightFuzzyImageId = rightFuzzyImageId;
             return this;
         }
 
-        public QueryBuilder rightFuzzyImage_id (String ... rightFuzzyImage_id){
-            if (rightFuzzyImage_id != null){
+        public QueryBuilder rightFuzzyImageId (String ... rightFuzzyImageId){
+            if (rightFuzzyImageId != null){
                 List<String> list = new ArrayList<>();
-                for (String item : rightFuzzyImage_id){
+                for (String item : rightFuzzyImageId){
                     if (item != null){
                         list.add(item);
                     }
                 }
-                this.rightFuzzyImage_id = list;
+                this.rightFuzzyImageId = list;
             }
             return this;
         }
 
-        public QueryBuilder image_id(String image_id){
-            setImage_id(image_id);
+        public QueryBuilder imageId(String imageId){
+            setImageId(imageId);
             return this;
         }
 
-        public QueryBuilder image_idList(String ... image_id){
-            if (image_id != null){
+        public QueryBuilder imageIdList(String ... imageId){
+            if (imageId != null){
                 List<String> list = new ArrayList<>();
-                for (String item : image_id){
+                for (String item : imageId){
                     if (item != null){
                         list.add(item);
                     }
                 }
-                this.image_idList = list;
+                this.imageIdList = list;
             }
 
             return this;
         }
 
-        public QueryBuilder image_idList(List<String> image_id){
-            this.image_idList = image_id;
+        public QueryBuilder imageIdList(List<String> imageId){
+            this.imageIdList = imageId;
             return this;
         }
 
-        public QueryBuilder fetchImage_id(){
-            setFetchFields("fetchFields","image_id");
+        public QueryBuilder fetchImageId(){
+            setFetchFields("fetchFields","imageId");
             return this;
         }
 
-        public QueryBuilder excludeImage_id(){
-            setFetchFields("excludeFields","image_id");
+        public QueryBuilder excludeImageId(){
+            setFetchFields("excludeFields","imageId");
             return this;
         }
 
@@ -655,249 +713,353 @@ public class FiImageFeature implements Serializable {
 
 
 
-        public QueryBuilder fuzzyPic_path (List<String> fuzzyPic_path){
-            this.fuzzyPic_path = fuzzyPic_path;
+        public QueryBuilder fuzzyPicPath (List<String> fuzzyPicPath){
+            this.fuzzyPicPath = fuzzyPicPath;
             return this;
         }
 
-        public QueryBuilder fuzzyPic_path (String ... fuzzyPic_path){
-            if (fuzzyPic_path != null){
+        public QueryBuilder fuzzyPicPath (String ... fuzzyPicPath){
+            if (fuzzyPicPath != null){
                 List<String> list = new ArrayList<>();
-                for (String item : fuzzyPic_path){
+                for (String item : fuzzyPicPath){
                     if (item != null){
                         list.add(item);
                     }
                 }
-                this.fuzzyPic_path = list;
+                this.fuzzyPicPath = list;
             }
             return this;
         }
 
-        public QueryBuilder rightFuzzyPic_path (List<String> rightFuzzyPic_path){
-            this.rightFuzzyPic_path = rightFuzzyPic_path;
+        public QueryBuilder rightFuzzyPicPath (List<String> rightFuzzyPicPath){
+            this.rightFuzzyPicPath = rightFuzzyPicPath;
             return this;
         }
 
-        public QueryBuilder rightFuzzyPic_path (String ... rightFuzzyPic_path){
-            if (rightFuzzyPic_path != null){
+        public QueryBuilder rightFuzzyPicPath (String ... rightFuzzyPicPath){
+            if (rightFuzzyPicPath != null){
                 List<String> list = new ArrayList<>();
-                for (String item : rightFuzzyPic_path){
+                for (String item : rightFuzzyPicPath){
                     if (item != null){
                         list.add(item);
                     }
                 }
-                this.rightFuzzyPic_path = list;
+                this.rightFuzzyPicPath = list;
             }
             return this;
         }
 
-        public QueryBuilder pic_path(String pic_path){
-            setPic_path(pic_path);
+        public QueryBuilder picPath(String picPath){
+            setPicPath(picPath);
             return this;
         }
 
-        public QueryBuilder pic_pathList(String ... pic_path){
-            if (pic_path != null){
+        public QueryBuilder picPathList(String ... picPath){
+            if (picPath != null){
                 List<String> list = new ArrayList<>();
-                for (String item : pic_path){
+                for (String item : picPath){
                     if (item != null){
                         list.add(item);
                     }
                 }
-                this.pic_pathList = list;
+                this.picPathList = list;
             }
 
             return this;
         }
 
-        public QueryBuilder pic_pathList(List<String> pic_path){
-            this.pic_pathList = pic_path;
+        public QueryBuilder picPathList(List<String> picPath){
+            this.picPathList = picPath;
             return this;
         }
 
-        public QueryBuilder fetchPic_path(){
-            setFetchFields("fetchFields","pic_path");
+        public QueryBuilder fetchPicPath(){
+            setFetchFields("fetchFields","picPath");
             return this;
         }
 
-        public QueryBuilder excludePic_path(){
-            setFetchFields("excludeFields","pic_path");
+        public QueryBuilder excludePicPath(){
+            setFetchFields("excludeFields","picPath");
             return this;
         }
 
 
 
-        public QueryBuilder fuzzyLib_id (List<String> fuzzyLib_id){
-            this.fuzzyLib_id = fuzzyLib_id;
+        public QueryBuilder fuzzyLibId (List<String> fuzzyLibId){
+            this.fuzzyLibId = fuzzyLibId;
             return this;
         }
 
-        public QueryBuilder fuzzyLib_id (String ... fuzzyLib_id){
-            if (fuzzyLib_id != null){
+        public QueryBuilder fuzzyLibId (String ... fuzzyLibId){
+            if (fuzzyLibId != null){
                 List<String> list = new ArrayList<>();
-                for (String item : fuzzyLib_id){
+                for (String item : fuzzyLibId){
                     if (item != null){
                         list.add(item);
                     }
                 }
-                this.fuzzyLib_id = list;
+                this.fuzzyLibId = list;
             }
             return this;
         }
 
-        public QueryBuilder rightFuzzyLib_id (List<String> rightFuzzyLib_id){
-            this.rightFuzzyLib_id = rightFuzzyLib_id;
+        public QueryBuilder rightFuzzyLibId (List<String> rightFuzzyLibId){
+            this.rightFuzzyLibId = rightFuzzyLibId;
             return this;
         }
 
-        public QueryBuilder rightFuzzyLib_id (String ... rightFuzzyLib_id){
-            if (rightFuzzyLib_id != null){
+        public QueryBuilder rightFuzzyLibId (String ... rightFuzzyLibId){
+            if (rightFuzzyLibId != null){
                 List<String> list = new ArrayList<>();
-                for (String item : rightFuzzyLib_id){
+                for (String item : rightFuzzyLibId){
                     if (item != null){
                         list.add(item);
                     }
                 }
-                this.rightFuzzyLib_id = list;
+                this.rightFuzzyLibId = list;
             }
             return this;
         }
 
-        public QueryBuilder lib_id(String lib_id){
-            setLib_id(lib_id);
+        public QueryBuilder libId(String libId){
+            setLibId(libId);
             return this;
         }
 
-        public QueryBuilder lib_idList(String ... lib_id){
-            if (lib_id != null){
+        public QueryBuilder libIdList(String ... libId){
+            if (libId != null){
                 List<String> list = new ArrayList<>();
-                for (String item : lib_id){
+                for (String item : libId){
                     if (item != null){
                         list.add(item);
                     }
                 }
-                this.lib_idList = list;
+                this.libIdList = list;
             }
 
             return this;
         }
 
-        public QueryBuilder lib_idList(List<String> lib_id){
-            this.lib_idList = lib_id;
+        public QueryBuilder libIdList(List<String> libId){
+            this.libIdList = libId;
             return this;
         }
 
-        public QueryBuilder fetchLib_id(){
-            setFetchFields("fetchFields","lib_id");
+        public QueryBuilder fetchLibId(){
+            setFetchFields("fetchFields","libId");
             return this;
         }
 
-        public QueryBuilder excludeLib_id(){
-            setFetchFields("excludeFields","lib_id");
-            return this;
-        }
-
-
-
-        public QueryBuilder vendor_idBetWeen(Long vendor_idSt,Long vendor_idEd){
-            this.vendor_idSt = vendor_idSt;
-            this.vendor_idEd = vendor_idEd;
-            return this;
-        }
-
-        public QueryBuilder vendor_idGreaterEqThan(Long vendor_idSt){
-            this.vendor_idSt = vendor_idSt;
-            return this;
-        }
-        public QueryBuilder vendor_idLessEqThan(Long vendor_idEd){
-            this.vendor_idEd = vendor_idEd;
+        public QueryBuilder excludeLibId(){
+            setFetchFields("excludeFields","libId");
             return this;
         }
 
 
-        public QueryBuilder vendor_id(Long vendor_id){
-            setVendor_id(vendor_id);
+
+        public QueryBuilder topLeftXBetWeen(Integer topLeftXSt,Integer topLeftXEd){
+            this.topLeftXSt = topLeftXSt;
+            this.topLeftXEd = topLeftXEd;
             return this;
         }
 
-        public QueryBuilder vendor_idList(Long ... vendor_id){
-            if (vendor_id != null){
-                List<Long> list = new ArrayList<>();
-                for (Long item : vendor_id){
+        public QueryBuilder topLeftXGreaterEqThan(Integer topLeftXSt){
+            this.topLeftXSt = topLeftXSt;
+            return this;
+        }
+        public QueryBuilder topLeftXLessEqThan(Integer topLeftXEd){
+            this.topLeftXEd = topLeftXEd;
+            return this;
+        }
+
+
+        public QueryBuilder topLeftX(Integer topLeftX){
+            setTopLeftX(topLeftX);
+            return this;
+        }
+
+        public QueryBuilder topLeftXList(Integer ... topLeftX){
+            if (topLeftX != null){
+                List<Integer> list = new ArrayList<>();
+                for (Integer item : topLeftX){
                     if (item != null){
                         list.add(item);
                     }
                 }
-                this.vendor_idList = list;
+                this.topLeftXList = list;
             }
 
             return this;
         }
 
-        public QueryBuilder vendor_idList(List<Long> vendor_id){
-            this.vendor_idList = vendor_id;
+        public QueryBuilder topLeftXList(List<Integer> topLeftX){
+            this.topLeftXList = topLeftX;
             return this;
         }
 
-        public QueryBuilder fetchVendor_id(){
-            setFetchFields("fetchFields","vendor_id");
+        public QueryBuilder fetchTopLeftX(){
+            setFetchFields("fetchFields","topLeftX");
             return this;
         }
 
-        public QueryBuilder excludeVendor_id(){
-            setFetchFields("excludeFields","vendor_id");
-            return this;
-        }
-
-
-
-        public QueryBuilder position_idBetWeen(Long position_idSt,Long position_idEd){
-            this.position_idSt = position_idSt;
-            this.position_idEd = position_idEd;
-            return this;
-        }
-
-        public QueryBuilder position_idGreaterEqThan(Long position_idSt){
-            this.position_idSt = position_idSt;
-            return this;
-        }
-        public QueryBuilder position_idLessEqThan(Long position_idEd){
-            this.position_idEd = position_idEd;
+        public QueryBuilder excludeTopLeftX(){
+            setFetchFields("excludeFields","topLeftX");
             return this;
         }
 
 
-        public QueryBuilder position_id(Long position_id){
-            setPosition_id(position_id);
+
+        public QueryBuilder topLeftYBetWeen(Integer topLeftYSt,Integer topLeftYEd){
+            this.topLeftYSt = topLeftYSt;
+            this.topLeftYEd = topLeftYEd;
             return this;
         }
 
-        public QueryBuilder position_idList(Long ... position_id){
-            if (position_id != null){
-                List<Long> list = new ArrayList<>();
-                for (Long item : position_id){
+        public QueryBuilder topLeftYGreaterEqThan(Integer topLeftYSt){
+            this.topLeftYSt = topLeftYSt;
+            return this;
+        }
+        public QueryBuilder topLeftYLessEqThan(Integer topLeftYEd){
+            this.topLeftYEd = topLeftYEd;
+            return this;
+        }
+
+
+        public QueryBuilder topLeftY(Integer topLeftY){
+            setTopLeftY(topLeftY);
+            return this;
+        }
+
+        public QueryBuilder topLeftYList(Integer ... topLeftY){
+            if (topLeftY != null){
+                List<Integer> list = new ArrayList<>();
+                for (Integer item : topLeftY){
                     if (item != null){
                         list.add(item);
                     }
                 }
-                this.position_idList = list;
+                this.topLeftYList = list;
             }
 
             return this;
         }
 
-        public QueryBuilder position_idList(List<Long> position_id){
-            this.position_idList = position_id;
+        public QueryBuilder topLeftYList(List<Integer> topLeftY){
+            this.topLeftYList = topLeftY;
             return this;
         }
 
-        public QueryBuilder fetchPosition_id(){
-            setFetchFields("fetchFields","position_id");
+        public QueryBuilder fetchTopLeftY(){
+            setFetchFields("fetchFields","topLeftY");
             return this;
         }
 
-        public QueryBuilder excludePosition_id(){
-            setFetchFields("excludeFields","position_id");
+        public QueryBuilder excludeTopLeftY(){
+            setFetchFields("excludeFields","topLeftY");
+            return this;
+        }
+
+
+
+        public QueryBuilder bottomRightXBetWeen(Integer bottomRightXSt,Integer bottomRightXEd){
+            this.bottomRightXSt = bottomRightXSt;
+            this.bottomRightXEd = bottomRightXEd;
+            return this;
+        }
+
+        public QueryBuilder bottomRightXGreaterEqThan(Integer bottomRightXSt){
+            this.bottomRightXSt = bottomRightXSt;
+            return this;
+        }
+        public QueryBuilder bottomRightXLessEqThan(Integer bottomRightXEd){
+            this.bottomRightXEd = bottomRightXEd;
+            return this;
+        }
+
+
+        public QueryBuilder bottomRightX(Integer bottomRightX){
+            setBottomRightX(bottomRightX);
+            return this;
+        }
+
+        public QueryBuilder bottomRightXList(Integer ... bottomRightX){
+            if (bottomRightX != null){
+                List<Integer> list = new ArrayList<>();
+                for (Integer item : bottomRightX){
+                    if (item != null){
+                        list.add(item);
+                    }
+                }
+                this.bottomRightXList = list;
+            }
+
+            return this;
+        }
+
+        public QueryBuilder bottomRightXList(List<Integer> bottomRightX){
+            this.bottomRightXList = bottomRightX;
+            return this;
+        }
+
+        public QueryBuilder fetchBottomRightX(){
+            setFetchFields("fetchFields","bottomRightX");
+            return this;
+        }
+
+        public QueryBuilder excludeBottomRightX(){
+            setFetchFields("excludeFields","bottomRightX");
+            return this;
+        }
+
+
+
+        public QueryBuilder bottomRightYBetWeen(Integer bottomRightYSt,Integer bottomRightYEd){
+            this.bottomRightYSt = bottomRightYSt;
+            this.bottomRightYEd = bottomRightYEd;
+            return this;
+        }
+
+        public QueryBuilder bottomRightYGreaterEqThan(Integer bottomRightYSt){
+            this.bottomRightYSt = bottomRightYSt;
+            return this;
+        }
+        public QueryBuilder bottomRightYLessEqThan(Integer bottomRightYEd){
+            this.bottomRightYEd = bottomRightYEd;
+            return this;
+        }
+
+
+        public QueryBuilder bottomRightY(Integer bottomRightY){
+            setBottomRightY(bottomRightY);
+            return this;
+        }
+
+        public QueryBuilder bottomRightYList(Integer ... bottomRightY){
+            if (bottomRightY != null){
+                List<Integer> list = new ArrayList<>();
+                for (Integer item : bottomRightY){
+                    if (item != null){
+                        list.add(item);
+                    }
+                }
+                this.bottomRightYList = list;
+            }
+
+            return this;
+        }
+
+        public QueryBuilder bottomRightYList(List<Integer> bottomRightY){
+            this.bottomRightYList = bottomRightY;
+            return this;
+        }
+
+        public QueryBuilder fetchBottomRightY(){
+            setFetchFields("fetchFields","bottomRightY");
+            return this;
+        }
+
+        public QueryBuilder excludeBottomRightY(){
+            setFetchFields("excludeFields","bottomRightY");
             return this;
         }
 
@@ -975,53 +1137,53 @@ public class FiImageFeature implements Serializable {
 
 
 
-        public QueryBuilder create_timeBetWeen(java.time.LocalDateTime create_timeSt,java.time.LocalDateTime create_timeEd){
-            this.create_timeSt = create_timeSt;
-            this.create_timeEd = create_timeEd;
+        public QueryBuilder createTimeBetWeen(java.time.LocalDateTime createTimeSt,java.time.LocalDateTime createTimeEd){
+            this.createTimeSt = createTimeSt;
+            this.createTimeEd = createTimeEd;
             return this;
         }
 
-        public QueryBuilder create_timeGreaterEqThan(java.time.LocalDateTime create_timeSt){
-            this.create_timeSt = create_timeSt;
+        public QueryBuilder createTimeGreaterEqThan(java.time.LocalDateTime createTimeSt){
+            this.createTimeSt = createTimeSt;
             return this;
         }
-        public QueryBuilder create_timeLessEqThan(java.time.LocalDateTime create_timeEd){
-            this.create_timeEd = create_timeEd;
-            return this;
-        }
-
-
-        public QueryBuilder create_time(java.time.LocalDateTime create_time){
-            setCreate_time(create_time);
+        public QueryBuilder createTimeLessEqThan(java.time.LocalDateTime createTimeEd){
+            this.createTimeEd = createTimeEd;
             return this;
         }
 
-        public QueryBuilder create_timeList(java.time.LocalDateTime ... create_time){
-            if (create_time != null){
+
+        public QueryBuilder createTime(java.time.LocalDateTime createTime){
+            setCreateTime(createTime);
+            return this;
+        }
+
+        public QueryBuilder createTimeList(java.time.LocalDateTime ... createTime){
+            if (createTime != null){
                 List<java.time.LocalDateTime> list = new ArrayList<>();
-                for (java.time.LocalDateTime item : create_time){
+                for (java.time.LocalDateTime item : createTime){
                     if (item != null){
                         list.add(item);
                     }
                 }
-                this.create_timeList = list;
+                this.createTimeList = list;
             }
 
             return this;
         }
 
-        public QueryBuilder create_timeList(List<java.time.LocalDateTime> create_time){
-            this.create_timeList = create_time;
+        public QueryBuilder createTimeList(List<java.time.LocalDateTime> createTime){
+            this.createTimeList = createTime;
             return this;
         }
 
-        public QueryBuilder fetchCreate_time(){
-            setFetchFields("fetchFields","create_time");
+        public QueryBuilder fetchCreateTime(){
+            setFetchFields("fetchFields","createTime");
             return this;
         }
 
-        public QueryBuilder excludeCreate_time(){
-            setFetchFields("excludeFields","create_time");
+        public QueryBuilder excludeCreateTime(){
+            setFetchFields("excludeFields","createTime");
             return this;
         }
 
@@ -1099,53 +1261,53 @@ public class FiImageFeature implements Serializable {
 
 
 
-        public QueryBuilder update_timeBetWeen(java.time.LocalDateTime update_timeSt,java.time.LocalDateTime update_timeEd){
-            this.update_timeSt = update_timeSt;
-            this.update_timeEd = update_timeEd;
+        public QueryBuilder updateTimeBetWeen(java.time.LocalDateTime updateTimeSt,java.time.LocalDateTime updateTimeEd){
+            this.updateTimeSt = updateTimeSt;
+            this.updateTimeEd = updateTimeEd;
             return this;
         }
 
-        public QueryBuilder update_timeGreaterEqThan(java.time.LocalDateTime update_timeSt){
-            this.update_timeSt = update_timeSt;
+        public QueryBuilder updateTimeGreaterEqThan(java.time.LocalDateTime updateTimeSt){
+            this.updateTimeSt = updateTimeSt;
             return this;
         }
-        public QueryBuilder update_timeLessEqThan(java.time.LocalDateTime update_timeEd){
-            this.update_timeEd = update_timeEd;
-            return this;
-        }
-
-
-        public QueryBuilder update_time(java.time.LocalDateTime update_time){
-            setUpdate_time(update_time);
+        public QueryBuilder updateTimeLessEqThan(java.time.LocalDateTime updateTimeEd){
+            this.updateTimeEd = updateTimeEd;
             return this;
         }
 
-        public QueryBuilder update_timeList(java.time.LocalDateTime ... update_time){
-            if (update_time != null){
+
+        public QueryBuilder updateTime(java.time.LocalDateTime updateTime){
+            setUpdateTime(updateTime);
+            return this;
+        }
+
+        public QueryBuilder updateTimeList(java.time.LocalDateTime ... updateTime){
+            if (updateTime != null){
                 List<java.time.LocalDateTime> list = new ArrayList<>();
-                for (java.time.LocalDateTime item : update_time){
+                for (java.time.LocalDateTime item : updateTime){
                     if (item != null){
                         list.add(item);
                     }
                 }
-                this.update_timeList = list;
+                this.updateTimeList = list;
             }
 
             return this;
         }
 
-        public QueryBuilder update_timeList(List<java.time.LocalDateTime> update_time){
-            this.update_timeList = update_time;
+        public QueryBuilder updateTimeList(List<java.time.LocalDateTime> updateTime){
+            this.updateTimeList = updateTime;
             return this;
         }
 
-        public QueryBuilder fetchUpdate_time(){
-            setFetchFields("fetchFields","update_time");
+        public QueryBuilder fetchUpdateTime(){
+            setFetchFields("fetchFields","updateTime");
             return this;
         }
 
-        public QueryBuilder excludeUpdate_time(){
-            setFetchFields("excludeFields","update_time");
+        public QueryBuilder excludeUpdateTime(){
+            setFetchFields("excludeFields","updateTime");
             return this;
         }
 

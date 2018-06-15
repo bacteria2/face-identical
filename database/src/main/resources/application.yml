@@ -2,12 +2,13 @@ server:
   port: 8765
 spring:
   application:
-    name: scheduler-service
+    name: database-service
   profiles:
     active: dev
 
+
 mybatis:
-    type-aliases-package: com.ydp.etl.scheduler.dao
+    type-aliases-package: com.pingan.fi.database.dao
     mapper-locations: mapper/**Mapper.xml
 
 ---
