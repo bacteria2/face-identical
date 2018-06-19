@@ -14,6 +14,7 @@ import com.pingan.fi.algorithm.model.fi.FeatureBody;
 import com.pingan.fi.algorithm.model.fi.ImageFeatureModel;
 import com.pingan.fi.algorithm.model.env.FiServerInfo;
 import com.pingan.fi.common.CommonResponse;
+import com.pingan.fi.common.ResponseList;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.fluent.Content;
 import org.apache.http.client.fluent.Request;
@@ -82,10 +83,17 @@ public class FiServiceExecutor extends AbstractExecutor {
      * 1vN接口执行，传入1个图片的base64编码，获得匹配结果
      * </p>
      */
-    public CommonResponse doFiSearch1vN(String imageBase64) {
-        log.info("");
-        //TODO
-        return null;
+    public List<Map> doFiSearch1vN(String imageBase64,String libids) throws IOException, AlgorithmCastException {
+        log.info("do 1vn search");
+        Content content = Request.Post(urlFormat(ServiceUrl.Search1VN))
+                .bodyString(String.format("{\"base\":\"%s\",\"top\":3,\"libids\":\"%s\"}", imageBase64,Optional.of(libids).orElse("0")), ContentType.APPLICATION_JSON)
+                .socketTimeout(serverInfo.getTimeout())
+                .connectTimeout(serverInfo.getTimeout())
+                .execute()
+                .returnContent();
+        List<Map> result=ifSuccessGetList(content);
+
+        return result;
     }
 
 

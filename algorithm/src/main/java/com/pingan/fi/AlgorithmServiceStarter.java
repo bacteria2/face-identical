@@ -14,8 +14,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 
 @SpringBootApplication
-//@EnableEurekaClient
-//@EnableConfigurationProperties
 @EnableSwagger2
 public class AlgorithmServiceStarter {
 

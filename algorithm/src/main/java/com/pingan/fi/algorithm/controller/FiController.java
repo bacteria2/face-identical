@@ -1,6 +1,7 @@
 package com.pingan.fi.algorithm.controller;
 
 import com.google.common.base.Preconditions;
+import com.pingan.fi.algorithm.engine.AlgorithmCastException;
 import com.pingan.fi.algorithm.engine.impl.FiServiceExecutor;
 import com.pingan.fi.algorithm.model.env.FiServerInfo;
 import com.pingan.fi.algorithm.model.fi.ImageFeatureModel;
@@ -47,13 +48,22 @@ public class FiController {
         return fiService.search1V1(file1,file2);
     }
 
+    @ApiOperation(value = "特征值新增", notes = "提交图片id，新增特征值")
     @PostMapping("/feature/add")
     public CommonResponse featureGenerate(@RequestBody List<ImageFeatureModel> idList) throws Exception {
         Preconditions.checkNotNull(idList,"图片列表为空");
         return fiService.featureGenerate(idList);
     }
 
+    @ApiOperation(value = "1vN任务提交", notes = "提交图片id，新增特征值")
+    @PostMapping("/search/1vN")
+    public CommonResponse search1VN(@RequestBody Map<String,String> parameter) throws IOException, AlgorithmCastException {
+        String imageId=parameter.get("imageId");
+        Preconditions.checkNotNull(imageId );
+        return fiService.search1VN(imageId,parameter.get("libIds"));
+    }
 
+    @ApiOperation(value = "人脸小图坐标查询", notes = "提交图片id，新增特征值")
     @GetMapping("/detect/{imageId}")
     public CommonResponse faceDetect(@PathVariable(value = "imageId") String imageId) throws Exception {
 
