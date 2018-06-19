@@ -9,7 +9,6 @@
 
     <modules>
         <module>registry</module>
-        <module>test</module>
         <module>gateway</module>
         <module>fi-common</module>
         <module>algorithm</module>

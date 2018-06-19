@@ -30,13 +30,6 @@ public class FiController {
     @Autowired
     FiService fiService;
 
-    @ApiOperation(value = "1vN任务提交", notes = "提交任务，返回任务ID，根据任务ID查询结果")
-    @PostMapping("/search/1vN")
-    public CommonResponse taskSubmit(@RequestBody Map task){
-        return null;
-    }
-
-
     @ApiOperation(value = "1v1任务提交", notes = "提交1v1需要的数据，返回结果")
     @ApiImplicitParams({
             @ApiImplicitParam(value="待评估文件1_id",name="imageId1",required = true,dataType = "String"),

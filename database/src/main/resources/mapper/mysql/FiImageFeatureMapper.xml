@@ -4,19 +4,19 @@
 <mapper namespace="com.pingan.fi.database.dao.FiImageFeatureDao">
 
     <sql id="allResult">
-            image_id,
-            feature,
-            charact,
-            pic_path,
-            lib_id,
-            top_left_x,
-            top_left_y,
-            bottom_right_x,
-            bottom_right_y,
-            creator,
-            create_time,
-            updator,
-            update_time
+            `image_id`,
+            `feature`,
+            `charact`,
+            `pic_path`,
+            `lib_id`,
+            `top_left_x`,
+            `top_left_y`,
+            `bottom_right_x`,
+            `bottom_right_y`,
+            `creator`,
+            `create_time`,
+            `updator`,
+            `update_time`
     </sql>
 
     <resultMap type="com.pingan.fi.database.model.FiImageFeature" id="FiImageFeatureMap">
@@ -35,82 +35,84 @@
         <result property="updateTime" column="update_time"/>
     </resultMap>
 
-
-    <select id="queryAllFeature" resultType="java.util.HashMap"  databaseId="mppdb">
-        select lib_id as libid,image_id as guid,feature from fi_image_feature
-        <if test="_parameter!=null">where lib_id = #{_parameter}</if>
+    <select id="queryAllFeature" resultType="java.util.HashMap" databaseId="mysql">
+        select `lib_id` as libid,`image_id` as guid,`feature` from `fi_image_feature`
+        <if test="_parameter!=null">where `lib_id` = #{_parameter}</if>
     </select>
 
-    <select id="queryFeatureByImageId" parameterType="String" resultMap="FiImageFeatureMap" databaseId="mppdb">
+    <select id="queryFeatureByImageId" parameterType="String" resultMap="FiImageFeatureMap" databaseId="mysql">
         select
         <include refid="allResult"></include>
-        from  fi_image_feature
-        where image_id=#{_parameter}
+        from  `fi_image_feature`
+        where `image_id`=#{_parameter}
     </select>
 
-    <insert id="insertFeatureListBatch" parameterType="java.util.List" databaseId="mppdb">
-        INSERT  INTO fi_image_feature (
-        image_id,
-        feature,
-        charact,
-        pic_path,
-        lib_id,
-        top_left_x,
-        top_left_y,
-        bottom_right_x,
-        bottom_right_y,
-        creator,
-        updator
-        )
+    <insert id="insertFeatureListBatch" parameterType="java.util.List" databaseId="mysql">
+        INSERT  INTO `fi_image_feature` ( `image_id`,
+        `feature`,
+        `charact`,
+        `pic_path`,
+        `lib_id`,
+        `top_left_x`,
+        `top_left_y`,
+        `bottom_right_x`,
+        `bottom_right_y`,
+        `creator`,
+        `updator`
+      )
         values
         <foreach collection="list" separator="," item="item">
-            ( #{item.imageId},#{item.feature},#{item.charact},#{item.picPath},
+            ( #{item.imageId},#{item.feature},#{item.charact},
+            <choose>
+                <when test="item.picPath != null">  #{item.picPath}</when>
+                <otherwise>""</otherwise>
+            </choose>,
             #{item.libId},#{item.topLeftX}, #{item.topLeftY},#{item.bottomRightX},#{item.bottomRightY},#{item.creator},#{item.updator}  )
         </foreach>
     </insert>
 
-    <insert id="insertFiImageFeature"  keyProperty="imageId" databaseId="mppdb">
-        INSERT INTO fi_image_feature
+    <insert id="insertFiImageFeature"  keyProperty="imageId" databaseId="mysql">
+        INSERT INTO `fi_image_feature`
         (
         <trim suffixOverrides=",">
             <if test="imageId!=null">
-                image_id,
+                `image_id`,
             </if>
             <if test="feature!=null">
-                feature,
+                `feature`,
             </if>
             <if test="charact!=null">
-                charact,
+                `charact`,
             </if>
             <if test="picPath!=null">
-                pic_path,
+                `pic_path`,
             </if>
             <if test="libId!=null">
-                lib_id,
+                `lib_id`,
             </if>
             <if test="topLeftX!=null">
-                top_left_x,
+                `top_left_x`,
             </if>
             <if test="topLeftY!=null">
-                top_left_y,
+                `top_left_y`,
             </if>
             <if test="bottomRightX!=null">
-                bottom_right_x,
+                `bottom_right_x`,
             </if>
             <if test="bottomRightY!=null">
-                bottom_right_y,
+                `bottom_right_y`,
             </if>
             <if test="creator!=null">
-                creator,
+                `creator`,
             </if>
             <if test="createTime!=null">
-                create_time,
+                `create_time`,
             </if>
             <if test="updator!=null">
-                updator,
+                `updator`,
             </if>
             <if test="updateTime!=null">
-                update_time,
+                `update_time`,
             </if>
         </trim>
         )
@@ -160,50 +162,52 @@
         )
     </insert>
 
-    <update id="updateFiImageFeature" databaseId="mppdb">
-        UPDATE fi_image_feature
+    <update id="updateFiImageFeature" databaseId="mysql">
+        UPDATE `fi_image_feature`
         SET
         <trim suffixOverrides=",">
+            <if test="imageId != null and imageId!=''">
+                `image_id` = #{imageId},
+            </if>
             <if test="feature != null and feature!=''">
-                feature = #{feature},
+                `feature` = #{feature},
             </if>
             <if test="charact != null and charact!=''">
-                charact = #{charact},
+                `charact` = #{charact},
             </if>
             <if test="picPath != null and picPath!=''">
-                pic_path = #{picPath},
+                `pic_path` = #{picPath},
             </if>
             <if test="libId != null and libId!=''">
-                lib_id = #{libId},
+                `lib_id` = #{libId},
             </if>
             <if test="topLeftX != null">
-                top_left_x = #{topLeftX},
+                `top_left_x` = #{topLeftX},
             </if>
             <if test="topLeftY != null">
-                top_left_y = #{topLeftY},
+                `top_left_y` = #{topLeftY},
             </if>
             <if test="bottomRightX != null">
-                bottom_right_x = #{bottomRightX},
+                `bottom_right_x` = #{bottomRightX},
             </if>
             <if test="bottomRightY != null">
-                bottom_right_y = #{bottomRightY},
+                `bottom_right_y` = #{bottomRightY},
             </if>
             <if test="creator != null and creator!=''">
-                creator = #{creator},
+                `creator` = #{creator},
             </if>
             <if test="createTime != null">
-                create_time = #{createTime},
+                `create_time` = #{createTime},
             </if>
             <if test="updator != null and updator!=''">
-                updator = #{updator},
+                `updator` = #{updator},
             </if>
             <if test="updateTime != null">
-                update_time = #{updateTime},
+                `update_time` = #{updateTime},
             </if>
         </trim>
-        WHERE  image_id =
         <choose>
-            <when test="imageId!=null">#{imageId}</when>
+            <when test="imageId!=null">#{id}</when>
             <otherwise>'-1'</otherwise>
         </choose>
     </update>

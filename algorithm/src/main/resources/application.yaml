@@ -4,7 +4,12 @@ spring:
   application:
     name: algorithm-service
   profiles:
-    active: dev
+    active: suzhou
+logging:
+  file: algorithm-service-out.log
+  path: ./logs/
+mybatis:
+  mapper-locations: mapper/**Mapper.xml
 ---
 #dev config
 spring:
@@ -21,28 +26,24 @@ server:
     username: test
     password:  test
     hostname:  localhost:8788
-logging:
-  file: algorithm-service-out.log
-  path: ./logs/
 datasource:
     jdbc-url: jdbc:mysql://localhost:3306/fi_db
     username: root
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
-mybatis:
-    mapper-locations: mapper/**Mapper.xml
 ---
-#prod config
 spring:
-  profiles: prod
-serverInfo:
+  profiles: suzhou
+server:
   fi:
     uriPrefix: /bioauth/faceService
-    host: 10.180.121.141
-    port: 8080
-    version: 1.0.0
-    vendorName: Pingan
-eureka:
-  client:
-    serviceUrl:
-      defaultZone:  http://peer.registry.com:8761/eureka/,http://peer.registry.com:8762/eureka/,http://peer.registry.com:8763/eureka/
+    hostname: 10.180.121.141:8080
+  image:
+    username: test
+    password:  test
+    hostname:  localhost:8788
+datasource:
+    jdbc-url: jdbc:postgresql://172.21.140.111:25308/pakj_db
+    username: pakj_user
+    password: Huawei12#$
+    driver-class-name: org.postgresql.Driver

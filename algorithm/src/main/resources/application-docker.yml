@@ -1,0 +1,13 @@
+server:
+  fi:
+    uriPrefix: /bioauth/faceService
+    hostname: 10.180.121.141:8080
+  image:
+    username: test
+    password:  test
+    hostname:  localhost:8788
+datasource:
+    jdbc-url: jdbc:postgresql://172.21.140.111:25308/pakj_db
+    username: pakj_user
+    password: Huawei12#$
+    driver-class-name: org.postgresql.Driver
