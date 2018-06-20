@@ -11,29 +11,50 @@ import org.springframework.stereotype.Component;
 
 public class FiServerInfo {
 
-    private String uriPrefix;
+    private String uriPrefixFor1V1;
 
-    private String hostname;
+    private String hostnameFor1V1;
+
+    private String uriPrefixFor1VN;
+
+    private String hostnameFor1VN;
+
 
     private String protocol="http";
 
     private int timeout=2000;
 
 
-    public String getUriPrefix() {
-        return uriPrefix;
+    public String getUriPrefixFor1V1() {
+        return uriPrefixFor1V1;
     }
 
-    public void setUriPrefix(String uriPrefix) {
-        this.uriPrefix = uriPrefix;
+    public void setUriPrefixFor1V1(String uriPrefixFor1V1) {
+        this.uriPrefixFor1V1 = uriPrefixFor1V1;
     }
 
-    public String getHostname() {
-        return hostname;
+    public String getHostnameFor1V1() {
+        return hostnameFor1V1;
     }
 
-    public void setHostname(String hostname) {
-        this.hostname = hostname;
+    public void setHostnameFor1V1(String hostnameFor1V1) {
+        this.hostnameFor1V1 = hostnameFor1V1;
+    }
+
+    public String getUriPrefixFor1VN() {
+        return uriPrefixFor1VN;
+    }
+
+    public void setUriPrefixFor1VN(String uriPrefixFor1VN) {
+        this.uriPrefixFor1VN = uriPrefixFor1VN;
+    }
+
+    public String getHostnameFor1VN() {
+        return hostnameFor1VN;
+    }
+
+    public void setHostnameFor1VN(String hostnameFor1VN) {
+        this.hostnameFor1VN = hostnameFor1VN;
     }
 
     public String getProtocol() {
@@ -51,4 +72,11 @@ public class FiServerInfo {
     public void setTimeout(int timeout) {
         this.timeout = timeout;
     }
+
+   public enum ServiceType{
+        Search1V1,Search1VN;
+
+        private int type;
+
+   }
 }

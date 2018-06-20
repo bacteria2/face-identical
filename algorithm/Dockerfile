@@ -1,4 +1,4 @@
-FROM lwieske/java-8
+FROM openjdk:8u171-jdk
 
 LABEL version="1.0"
 LABEL description=""
@@ -12,4 +12,4 @@ COPY ./target/$JAR_NAME /app
 WORKDIR /app
 EXPOSE 8080
 #run jar
-CMD  java -jar /app/$JAR_NAME
+CMD nohup  java -jar /app/$JAR_NAME &

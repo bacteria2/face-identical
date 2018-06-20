@@ -1,5 +1,6 @@
 package com.pingan.fi.algorithm.services;
 
+import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import com.pingan.fi.algorithm.engine.AlgorithmCastException;
 import com.pingan.fi.algorithm.engine.impl.FiServiceExecutor;
@@ -12,9 +13,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -38,8 +41,17 @@ public class FiService {
      */
     public CommonResponse search1VN(String imageId, String libids) throws IOException, AlgorithmCastException {
         String base64 = imageExecutor.doImageGet(imageId);
-        List<Map> result = fiServiceExecutor.doFiSearch1vN(base64, libids);
-        return ResponseList.DEFAULT_SUCCESS_MESSAGE.getResponseWithData(result);
+        List<Map> resultList = fiServiceExecutor.doFiSearch1vN(base64, libids);
+
+        resultList = resultList.stream().map((Function<Map<String,String>, Map<String,String>>) result -> {
+            Map<String, String> map = new HashMap<>();
+            map.put("imageId", result.get("guid"));
+            map.put("similarity", result.get("similarity"));
+            map.put("libId", result.get("libid"));
+            return map;
+        }).collect(Collectors.toList());
+
+        return ResponseList.DEFAULT_SUCCESS_MESSAGE.getResponseWithData(resultList);
     }
 
     /**
@@ -47,11 +59,11 @@ public class FiService {
      */
     public CommonResponse search1V1(String file1, String file2) throws Exception {
 
-        log.info("get image from image repo file1:{},file2:{}", file1, file2);
+        log.debug("get image from image repo file1:{},file2:{}", file1, file2);
         String file1Base64 = imageExecutor.doImageGet(file1);
         String file2Base64 = imageExecutor.doImageGet(file2);
 
-        log.info("call 1v1 search");
+        log.debug("call 1v1 search");
         float similarity = fiServiceExecutor.doFiSearch1v1(file1Base64, file2Base64);
         Map<String, Float> map = new HashMap<>();
         map.put("similarity", similarity);
@@ -67,7 +79,7 @@ public class FiService {
      */
     public CommonResponse featureGenerate(List<ImageFeatureModel> imageList) throws IOException, AlgorithmCastException {
         //请求算法生成特征值
-        log.info("request feature generate");
+        log.debug("request feature generate");
 
         //特征值批量参数列表请求初始化
         List<Map> requestBodyList = new LinkedList<>();
@@ -84,13 +96,17 @@ public class FiService {
         return ResponseList.DEFAULT_SUCCESS_MESSAGE.getResponse();
     }
 
+    public void updateHostName(String hostname, int type) {
+        fiServiceExecutor.updateHostName(hostname, type);
+    }
+
 
     /**
      * <p>小图坐标生成</p>
      */
 
     public CommonResponse faceDetect(String imageId) throws Exception {
-        log.info("request picture rect, id:{}", imageId);
+        log.debug("request picture rect, id:{}", imageId);
         //请求图文库获得图片
         String imageBase64 = imageExecutor.doImageGet(imageId);
 

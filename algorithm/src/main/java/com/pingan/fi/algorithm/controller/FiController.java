@@ -71,5 +71,10 @@ public class FiController {
     }
 
 
-
+    @ApiOperation(value="修改算法调用接口",notes = "修改算法接口， type为数据类型 0为1v1,1为1vn")
+    @PostMapping("/config/fi-server/port")
+    public CommonResponse serverPortChange(@RequestParam int type, @RequestParam String hostname){
+        fiService.updateHostName(hostname,type);
+        return ResponseList.DEFAULT_SUCCESS_MESSAGE.getResponse();
+    }
 }

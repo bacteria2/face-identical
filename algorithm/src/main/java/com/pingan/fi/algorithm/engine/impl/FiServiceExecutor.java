@@ -146,6 +146,16 @@ public class FiServiceExecutor extends AbstractExecutor {
         return ifSuccessGetList(content);
     }
 
+    public void  updateHostName(String hostname,int type){
+        if(type== FiServerInfo.ServiceType.Search1V1.ordinal()){
+            serverInfo.setHostnameFor1V1(hostname);
+        }
+        if(type== FiServerInfo.ServiceType.Search1VN.ordinal()){
+            serverInfo.setHostnameFor1VN(hostname);
+        }
+    }
+
+
     //检查返回是否成功,成功返回则对象
     private <T> T ifSuccessGet(String key, Content content, Class<T> tClass) throws AlgorithmCastException {
         return isRtnSuccess(content).getObject(key, tClass);
@@ -165,16 +175,31 @@ public class FiServiceExecutor extends AbstractExecutor {
         return resp;
     }
 
+
+
     private String urlFormat(ServiceUrl url) {
         Preconditions.checkNotNull(url, "传入url为空");
         Preconditions.checkNotNull(serverInfo, "识别服务信息为空");
+        int type=url.getType();
+        String prefix ="" ;
+        String hostname="";
+        if(type== FiServerInfo.ServiceType.Search1V1.ordinal()){
+            prefix= serverInfo.getUriPrefixFor1V1();
+            hostname=serverInfo.getHostnameFor1V1();
+        }
 
-        String prefix = serverInfo.getUriPrefix();
+        if(type== FiServerInfo.ServiceType.Search1VN.ordinal()){
+            prefix=serverInfo.getUriPrefixFor1VN();
+            hostname=serverInfo.getHostnameFor1VN();
+        }
+
 
         if (prefix.endsWith("/"))
             prefix = prefix.substring(0, prefix.length() - 1);
 
-        return String.format("%s://%s%s", serverInfo.getProtocol(), serverInfo.getHostname(), prefix.concat(url.toString()));
+        return String.format("%s://%s%s", serverInfo.getProtocol(), hostname, prefix.concat(url.toString()));
     }
 
 }
+
+

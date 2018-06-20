@@ -1,8 +1,6 @@
 server:
   port: 8080
 spring:
-  application:
-    name: algorithm-service
   profiles:
     active: suzhou
 logging:
@@ -14,23 +12,16 @@ mybatis:
 #dev config
 spring:
   profiles: dev
-eureka:
-  client:
-    serviceUrl:
-      defaultZone:  http://localhost:8761/eureka/
 server:
   fi:
-    uriPrefix: /bioauth/faceService
-    hostname: 10.180.121.141:8080
+    uriPrefixFor1V1: /bioauth/faceService
+    hostnameFor1V1: 10.180.121.141:8080
+    uriPrefixFor1VN: /faceService
+    hostnameFor1VN: 10.180.121.141:8080
   image:
     username: test
     password:  test
     hostname:  localhost:8788
-datasource:
-    jdbc-url: jdbc:mysql://localhost:3306/fi_db
-    username: root
-    password: 123456
-    driver-class-name: com.mysql.jdbc.Driver
 ---
 spring:
   profiles: suzhou
