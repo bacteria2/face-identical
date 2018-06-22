@@ -86,7 +86,7 @@ public class FiServiceExecutor extends AbstractExecutor {
     public List<Map> doFiSearch1vN(String imageBase64,String libids) throws IOException, AlgorithmCastException {
         log.info("do 1vn search");
         Content content = Request.Post(urlFormat(ServiceUrl.Search1VN))
-                .bodyString(String.format("{\"base\":\"%s\",\"top\":3,\"libids\":\"%s\"}", imageBase64,Optional.of(libids).orElse("0")), ContentType.APPLICATION_JSON)
+                .bodyString(String.format("{\"base64\":\"%s\",\"top\":3,\"libids\":\"%s\"}", imageBase64,Optional.ofNullable(libids).orElse("0")), ContentType.APPLICATION_JSON)
                 .socketTimeout(serverInfo.getTimeout())
                 .connectTimeout(serverInfo.getTimeout())
                 .execute()

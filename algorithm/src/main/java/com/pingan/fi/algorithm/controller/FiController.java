@@ -26,6 +26,7 @@ import java.util.Map;
  * @decription : content
  */
 @RestController
+@RequestMapping("/face")
 public class FiController {
 
     @Autowired

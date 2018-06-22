@@ -43,8 +43,8 @@ public class FiService {
         String base64 = imageExecutor.doImageGet(imageId);
         List<Map> resultList = fiServiceExecutor.doFiSearch1vN(base64, libids);
 
-        resultList = resultList.stream().map((Function<Map<String,String>, Map<String,String>>) result -> {
-            Map<String, String> map = new HashMap<>();
+        resultList = resultList.stream().map(result -> {
+            Map map = new HashMap<>();
             map.put("imageId", result.get("guid"));
             map.put("similarity", result.get("similarity"));
             map.put("libId", result.get("libid"));
@@ -88,12 +88,12 @@ public class FiService {
         for (ImageFeatureModel image : imageList) {
             String imageBase64 = imageExecutor.doImageGet(image.getImageId());
             //填充特征值请求列表
-            requestBodyList.add(newRequestBodyMap(imageBase64, image.getImageId(), Optional.of(image.getLibId()).orElse("0")));
+            requestBodyList.add(newRequestBodyMap(imageBase64, image.getImageId(), Optional.ofNullable(image.getLibId()).orElse("0")));
         }
         //包含特征值和图片id的列表
         fiServiceExecutor.doFeatureGen(requestBodyList);
 
-        return ResponseList.DEFAULT_SUCCESS_MESSAGE.getResponse();
+        return ResponseList.DEFAULT_SUCCESS_MESSAGE.getResponseWithData(imageList.size());
     }
 
     public void updateHostName(String hostname, int type) {

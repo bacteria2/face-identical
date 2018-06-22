@@ -17,7 +17,7 @@ public enum ServiceUrl {
 
     FaceDetect("/faceDetect",0), //人脸小图矩阵识别
 
-    FeatureGeneration("/buildFeatureVecByB64",0),    //特征值生成
+    FeatureGeneration("/buildFeatureVecByB64",1),    //特征值生成
 
     FeatureGenerationByUrl("/buildFeatureVecByUrl",0),  //url特征值生成
 
