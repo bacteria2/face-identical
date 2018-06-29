@@ -22,7 +22,7 @@ public class SignatureHelper {
 
     public static String hmcSha1Sign(String password,String data){
 
-        SecretKeySpec signingKey=new SecretKeySpec(data.getBytes(),"HmacSHA1");
+        SecretKeySpec signingKey=new SecretKeySpec(password.getBytes(),"HmacSHA1");
 
         String encodeString="";
 
@@ -30,7 +30,7 @@ public class SignatureHelper {
             Mac mac = Mac.getInstance("HmacSHA1");
             mac.init(signingKey);
 
-            byte[] rawHmc=mac.doFinal(password.getBytes());
+            byte[] rawHmc=mac.doFinal(data.getBytes());
             Formatter formatter = new Formatter();
 
             for (byte b : rawHmc) {

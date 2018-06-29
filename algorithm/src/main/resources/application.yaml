@@ -2,10 +2,10 @@ server:
   port: 8080
 spring:
   profiles:
-    active: suzhou
+    active: dev
 logging:
   file: algorithm-service-out.log
-  path: ./logs/
+
 mybatis:
   mapper-locations: mapper/**Mapper.xml
 ---
@@ -15,13 +15,13 @@ spring:
 server:
   fi:
     uriPrefixFor1V1: /bioauth/faceService
-    hostnameFor1V1: 10.180.121.141:8080
+    hostnameFor1V1: 190.192.7.74:8080
     uriPrefixFor1VN: /faceService
     hostnameFor1VN: 10.180.121.141:8080
   image:
     username: test
-    password:  test
-    hostname:  localhost:8788
+    password: test
+    hostname: 190.192.1.225
 ---
 spring:
   profiles: suzhou

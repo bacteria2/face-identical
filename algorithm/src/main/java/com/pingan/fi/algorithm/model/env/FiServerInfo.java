@@ -22,7 +22,7 @@ public class FiServerInfo {
 
     private String protocol="http";
 
-    private int timeout=2000;
+    private int timeout=15000;
 
 
     public String getUriPrefixFor1V1() {

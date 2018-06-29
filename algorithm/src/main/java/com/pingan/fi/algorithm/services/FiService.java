@@ -8,13 +8,19 @@ import com.pingan.fi.algorithm.engine.impl.ImageExecutor;
 import com.pingan.fi.algorithm.model.fi.ImageFeatureModel;
 import com.pingan.fi.common.CommonResponse;
 import com.pingan.fi.common.ResponseList;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.InputStreamEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Nullable;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -97,6 +103,7 @@ public class FiService {
     }
 
     public void updateHostName(String hostname, int type) {
+        log.info("update algorithm:type:{}, host: {}," ,type,hostname);
         fiServiceExecutor.updateHostName(hostname, type);
     }
 
@@ -110,10 +117,16 @@ public class FiService {
         //请求图文库获得图片
         String imageBase64 = imageExecutor.doImageGet(imageId);
 
-        String[] rect = fiServiceExecutor.doFaceDetect(imageBase64);
+//        String[] rect = fiServiceExecutor.doFaceDetect(imageBase64);
+//
+//        ImageFeatureModel data = new ImageFeatureModel(rect[0], rect[1], rect[2], rect[3]);
 
+        return faceDetectByBase64(imageBase64);
+    }
+
+    public CommonResponse faceDetectByBase64(String base64){
+        String[] rect = fiServiceExecutor.doFaceDetect(base64);
         ImageFeatureModel data = new ImageFeatureModel(rect[0], rect[1], rect[2], rect[3]);
-
         return ResponseList.DEFAULT_SUCCESS_MESSAGE.getResponseWithData(data);
     }
 
@@ -153,4 +166,5 @@ public class FiService {
         map.put("libid", libId);
         return map;
     }
+
 }

@@ -48,8 +48,9 @@ public class ImageExecutor extends AbstractExecutor {
                 .execute()
                 .returnContent();
         JSONObject jsonObject=ifSuccessGetObject(content);
-
-        return jsonObject.getString("data");
+        String imageBase64=jsonObject.getString("data").replaceAll("\r|\n","");
+        log.debug("imageBase64,{}",imageBase64);
+        return imageBase64;
     }
 
 

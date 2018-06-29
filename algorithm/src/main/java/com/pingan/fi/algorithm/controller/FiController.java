@@ -15,9 +15,13 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 /**
@@ -72,10 +76,46 @@ public class FiController {
     }
 
 
-    @ApiOperation(value="修改算法调用接口",notes = "修改算法接口， type为数据类型 0为1v1,1为1vn")
+    @ApiOperation(value="修改算法调用接口,会获取调用者IP来确定完整hostname",notes = "修改算法接口， type为数据类型 0为1v1,1为1vn")
     @PostMapping("/config/fi-server/port")
-    public CommonResponse serverPortChange(@RequestParam int type, @RequestParam String hostname){
+    public CommonResponse serverPortChange(@RequestParam int type, @RequestParam String port,HttpServletRequest request)   throws UnknownHostException  {
+        String remoteIp=getIpAddr(request);
+        fiService.updateHostName(String.format("%s:%s",remoteIp,port),type);
+        return ResponseList.DEFAULT_SUCCESS_MESSAGE.getResponse();
+    }
+
+    @ApiOperation(value="修改算法调用域名和接口",notes = "修改算法接口， type为数据类型 0为1v1,1为1vn，")
+    @PostMapping("/config/fi-server/hostname")
+    public CommonResponse serverHostnameChange(@RequestParam int type, @RequestParam String hostname){
         fiService.updateHostName(hostname,type);
         return ResponseList.DEFAULT_SUCCESS_MESSAGE.getResponse();
     }
+
+
+    private  String getIpAddr(HttpServletRequest request) throws UnknownHostException {
+        String ipAddress = request.getHeader("x-forwarded-for");
+        if(ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader("Proxy-Client-IP");
+        }
+        if(ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if(ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getRemoteAddr();
+            if(ipAddress.equals("127.0.0.1") || ipAddress.equals("0:0:0:0:0:0:0:1")){
+                //根据网卡取本机配置的IP
+                InetAddress inet=InetAddress.getLocalHost();
+                ipAddress= inet.getHostAddress();
+            }
+        }
+        //对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割
+        if(ipAddress!=null && ipAddress.length()>15){ //"***.***.***.***".length() = 15
+            if(ipAddress.indexOf(",")>0){
+                ipAddress = ipAddress.substring(0,ipAddress.indexOf(","));
+            }
+        }
+        return ipAddress;
+    }
+
+
 }
